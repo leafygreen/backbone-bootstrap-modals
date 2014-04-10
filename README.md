@@ -47,3 +47,8 @@ Contributions are welcome! To make the process as seamless as possible, please:
 
 ## License
 Licensed under the [MIT license](LICENSE-MIT "MIT License").
+
+## Shout Outs
+
+backbone-bootstrap-modals is a MongoDB Skunkworks Project
+![Friendly Skunk](http://s28.postimg.org/4dtozbgkd/skunkworks2.jpg)
