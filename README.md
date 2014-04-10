@@ -20,7 +20,107 @@ when working with Bootstrap modal dialogs.
 
 [Annotated Source Code](http://leafygreen.github.io/backbone-bootstrap-modals/docs/backbone-bootstrap-modals.html)
 
-[Example](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+[Live Example](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+
+### BackboneBootstrapModals.BaseModal
+
+```javascript
+var modal = new BackboneBootstrapModals.BaseModal({
+  headerView: new BackboneBootstrapModals.BaseHeaderView({
+    label: 'Example Dialog',
+    labelId: 'myModalLabel',
+    showClose: true,
+  }),
+  bodyView: new BackboneBootstrapModals.BaseBodyView({
+    text: 'This is an example body.'
+  }),
+  footerView: new BackboneBootstrapModals.BaseFooterView({
+    buttons: [
+      { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+      { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+    ]
+  }),
+  modalOptions: {
+    backdrop: true,
+    keyboard: true
+  }
+});
+modal.render();
+```
+
+```javascript
+var modal = new BackboneBootstrapModals.BaseModal({
+  headerViewOptions: {
+    label: 'Example Dialog',
+    labelId: 'myModalLabel',
+    showClose: true,
+  },
+  bodyViewOptions: {
+    text: 'This is an example body.'
+  },
+  footerViewOptions: {
+    buttons: [
+      { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+      { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+    ]
+  },
+  modalOptions: {
+    backdrop: true,
+    keyboard: true
+  }
+});
+modal.render();
+```
+
+### BackboneBootstrapModals.ConfirmationModal
+
+```javascript
+var modal = new BackboneBootstrapModals.ConfirmationModal({
+  label: 'Confirm Action',
+  text: 'Are you sure you want to do that?',
+  onConfirm: function() {
+    console.log("action confirmed");
+  },
+  onCancel: function() {
+    console.log("action canceled");
+  }
+});
+modal.render();
+```
+
+### BackboneBootstrapModals.WizardModal
+
+```javascript
+var modal = new BackboneBootstrapModals.WizardModal({
+  steps: [{
+    label: 'Wizard: Step One',
+    view: BackboneBootstrapModals.BaseBodyView,
+    viewOptions: { text: 'This is step one' },
+    onNext: function() {
+      console.log('next for step one');
+  }
+  },
+  {
+    label: 'Wizard: Step Two',
+    view: BackboneBootstrapModals.BaseBodyView,
+    viewOptions: { text: 'This is step two' },
+    onNext: function() {
+      console.log('next for step two');
+    }
+  },
+  {
+    label: 'Wizard: Step Three',
+    view: BackboneBootstrapModals.BaseBodyView,
+    viewOptions: { text: 'This is step three' },
+    nextText: 'Finish',
+    onNext: function() {
+      console.log('next for step three');
+    }
+  }
+  ]
+});
+modal.render();
+```
 
 ## Supported browsers
 
