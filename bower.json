@@ -1,0 +1,29 @@
+{
+  "name": "backbone-bootstrap-modals",
+  "version": "0.1.0",
+  "homepage": "https://github.com/leafygreen/backbone-bootstrap-modals",
+  "authors": [
+    "Dennis Kuczynski <dennis.kuczynski@gmail.com>"
+  ],
+  "description": "Set of extendable Backbone Views for working with Bootstrap Modal Dialogs",
+  "main": "dist/backbone-bootstrap-modals.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "Backbone",
+    "Bootstrap",
+    "Modal"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "bootstrap": "~3.1.1"
+  }
+}
