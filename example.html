@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore.js"></script>
+    <script type="text/javascript" src="http://backbonejs.org/backbone.js"></script>
+    <script type="text/javascript" src="https://rawgithub.com/leafygreen/backbone-bootstrap-modals/master/lib/backbone-bootstrap-modals.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style>
+      li {
+        margin-bottom: 10px;
+      }
+      li > a.btn {
+        width: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <h1>Backbone Bootstrap Modals</h1>
+        <hr/>
+
+        <ul class="list-unstyled">
+            <li><a href="#" id="show-full-base-modal-btn" class="btn btn-primary">Example Full Base Modal</a></li>
+            <li><a href="#" id="show-simple-base-modal-btn" class="btn btn-primary">Example Simple Base Modal</a></li>
+            <li><a href="#" id="show-confirmation-modal-btn" class="btn btn-primary">Example Confirmation Modal</a></li>
+            <li><a href="#" id="show-wizard-modal-btn" class="btn btn-primary">Example Wizard Modal</a></li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+
+        // Example BaseModal when passing in sub views
+        $('#show-full-base-modal-btn').click(function(e) {
+          e.preventDefault();
+          var modal = new BackboneBootstrapModals.BaseModal({
+            headerView: new BackboneBootstrapModals.BaseHeaderView({
+              label: 'Example Dialog',
+              labelId: 'myModalLabel',
+              showClose: true,
+            }),
+            bodyView: new BackboneBootstrapModals.BaseBodyView({
+              text: 'This is an example body.'
+            }),
+            footerView: new BackboneBootstrapModals.BaseFooterView({
+              buttons: [
+                { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+                { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+              ]
+            }),
+            modalOptions: {
+              backdrop: true,
+              keyboard: true
+            }
+          });
+          modal.render();
+
+          // Add handler for apply button
+          modal.$el.click('#full-modal-apply-btn', function() {
+            modal.hide();
+          });
+        });
+
+        // Example BaseModal when using default sub views
+        $('#show-simple-base-modal-btn').click(function(e) {
+          e.preventDefault();
+          var modal = new BackboneBootstrapModals.BaseModal({
+            headerViewOptions: {
+              label: 'Example Dialog',
+              labelId: 'myModalLabel',
+              showClose: true,
+            },
+            bodyViewOptions: {
+              text: 'This is an example body.'
+            },
+            footerViewOptions: {
+              buttons: [
+                { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+                { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+              ]
+            },
+            modalOptions: {
+              backdrop: true,
+              keyboard: true
+            }
+          });
+          modal.render();
+
+          // Add handler for apply button
+          modal.$el.click('#full-modal-apply-btn', function() {
+            modal.hide();
+          });
+        });
+
+        // Example Confirmation Modal
+        $('#show-confirmation-modal-btn').click(function(e) {
+          e.preventDefault();
+          var modal = new BackboneBootstrapModals.ConfirmationModal({
+            label: 'Confirm Action',
+            text: 'Are you sure you want to do that?',
+            onConfirm: function() {
+                console.log("action confirmed");
+            },
+            onCancel: function() {
+                console.log("action canceled");
+            }
+          });
+          modal.render();
+        });
+
+        // Example Wizard Modal
+        $('#show-wizard-modal-btn').click(function(e) {
+          e.preventDefault();
+          var modal = new BackboneBootstrapModals.WizardModal({
+            steps: [{
+                label: 'Wizard: Step One',
+                view: BackboneBootstrapModals.BaseBodyView,
+                viewOptions: { text: 'This is step one' },
+                onNext: function() {
+                    console.log('next for step one');
+                }
+              },
+              {
+                label: 'Wizard: Step Two',
+                view: BackboneBootstrapModals.BaseBodyView,
+                viewOptions: { text: 'This is step two' },
+                onNext: function() {
+                    console.log('next for step two');
+                }
+              },
+              {
+                label: 'Wizard: Step Three',
+                view: BackboneBootstrapModals.BaseBodyView,
+                viewOptions: { text: 'This is step three' },
+                nextText: 'Finish',
+                onNext: function() {
+                    console.log('next for step three');
+                }
+              }
+            ]
+          });
+          modal.render();
+        });
+      
+    </script>
+  </body>
+</html>
