@@ -7,8 +7,8 @@ when working with Bootstrap modal dialogs.
 ## Advantages
 
 - Simple integration with Bootstrap and Backbone
-- Easily extensible
-- Works with Marionette Views
+- Easily extensible, with the boilerplate taken care for you
+- Compatible with Marionette Views
 
 ## Download Links
 
