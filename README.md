@@ -16,9 +16,11 @@ when working with Bootstrap modal dialogs.
 
 [backbone-bootstrap-modals.min.js](https://raw.githubusercontent.com/leafygreen/backbone-bootstrap-modals/master/lib/backbone-bootstrap-modals.min.js)
 
-## Examples
+## Documentation
 
-[Example](https://raw.githubusercontent.com/leafygreen/backbone-bootstrap-modals/master/example.html)
+[Annotated Source Code](http://leafygreen.github.io/backbone-bootstrap-modals/docs/backbone-bootstrap-modals.html)
+
+[Example](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
 
 ## Supported browsers
 
