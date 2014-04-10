@@ -24,6 +24,8 @@ when working with Bootstrap modal dialogs.
 
 ### BackboneBootstrapModals.BaseModal
 
+A basic example of using the BaseModal when passing in sub views.
+
 ```javascript
 var modal = new BackboneBootstrapModals.BaseModal({
   headerView: new BackboneBootstrapModals.BaseHeaderView({
@@ -47,6 +49,8 @@ var modal = new BackboneBootstrapModals.BaseModal({
 });
 modal.render();
 ```
+
+A basic example of using the BaseModal when using the default sub views.
 
 ```javascript
 var modal = new BackboneBootstrapModals.BaseModal({
@@ -74,6 +78,8 @@ modal.render();
 
 ### BackboneBootstrapModals.ConfirmationModal
 
+A basic example of the Confirmation functionality.
+
 ```javascript
 var modal = new BackboneBootstrapModals.ConfirmationModal({
   label: 'Confirm Action',
@@ -89,6 +95,8 @@ modal.render();
 ```
 
 ### BackboneBootstrapModals.WizardModal
+
+A basic example of the Wizard functionality.
 
 ```javascript
 var modal = new BackboneBootstrapModals.WizardModal({
@@ -116,8 +124,7 @@ var modal = new BackboneBootstrapModals.WizardModal({
     onNext: function() {
       console.log('next for step three');
     }
-  }
-  ]
+  }]
 });
 modal.render();
 ```
