@@ -144,7 +144,10 @@ grunt
 ## Running the tests
 
 ```
-grunt test
+cd test
+bower install
+cd ..
+grunt mocha
 ```
 
 ## Contributing
