@@ -63,7 +63,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-basemodal">BackboneBootstrapModals.BaseModal</h2>
+              <h2 id="basemodal">BaseModal</h2>
 
             </div>
             
@@ -165,7 +165,7 @@ All sub views should respect Bootstrap markup guidelines.</p>
       $modalContent.append(<span class="hljs-keyword">this</span>.footerView.render().$el);
     }
 
-    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shown) {
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.shown &amp;&amp; <span class="hljs-keyword">this</span>.modalOptions.show !== <span class="hljs-literal">false</span>) {
         <span class="hljs-keyword">this</span>.$el.modal(<span class="hljs-keyword">this</span>.modalOptions);
         <span class="hljs-keyword">this</span>.shown = <span class="hljs-literal">true</span>;
     }
@@ -198,7 +198,7 @@ All sub views should respect Bootstrap markup guidelines.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  removeSubView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(view)</span> {</span>
-    <span class="hljs-keyword">if</span> (view.close) {
+    <span class="hljs-keyword">if</span> (Backbone.Marionette &amp;&amp; view.close) {
         view.close.apply(view);
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (view.remove) {
         view.remove.apply(view);
@@ -285,7 +285,7 @@ All sub views should respect Bootstrap markup guidelines.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-baseheaderview">BackboneBootstrapModals.BaseHeaderView</h2>
+              <h2 id="baseheaderview">BaseHeaderView</h2>
 
             </div>
             
@@ -334,7 +334,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-basebodyview">BackboneBootstrapModals.BaseBodyView</h2>
+              <h2 id="basebodyview">BaseBodyView</h2>
 
             </div>
             
@@ -380,7 +380,7 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-basefooterview">BackboneBootstrapModals.BaseFooterView</h2>
+              <h2 id="basefooterview">BaseFooterView</h2>
 
             </div>
             
@@ -439,7 +439,7 @@ BackboneBootstrapModals.BaseFooterView = Backbone.View.extend({
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-confirmationmodal">BackboneBootstrapModals.ConfirmationModal</h2>
+              <h2 id="confirmationmodal">ConfirmationModal</h2>
 
             </div>
             
@@ -554,7 +554,7 @@ The modal will not be hidden if the callback returns false.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
-              <h2 id="backbonebootstrapmodals-confirmationmodal">BackboneBootstrapModals.ConfirmationModal</h2>
+              <h2 id="wizardmodal">WizardModal</h2>
 
             </div>
             
@@ -580,10 +580,14 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(opts)</span> {</span>
+    <span class="hljs-keyword">if</span> (!opts.steps || !_.isArray(opts.steps) || !opts.steps.length) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"steps array must be specified and non-empty"</span>);
+    }
     <span class="hljs-keyword">this</span>.stepIndex = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">this</span>.steps = opts.steps;
 
     <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">this</span>.getOptionsForStep(<span class="hljs-keyword">this</span>.stepIndex);
+    options.modalOptions = _.extend({}, <span class="hljs-keyword">this</span>.defaultModalOptions, opts.modalOptions);
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(<span class="hljs-keyword">this</span>, options);
   },</pre></div></div>
             
