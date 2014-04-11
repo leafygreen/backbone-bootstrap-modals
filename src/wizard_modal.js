@@ -15,7 +15,9 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
       throw new Error("steps array must be specified and non-empty");
     }
     this.stepIndex = 0;
-    this.steps = opts.steps;
+    if (!this.steps) {
+      this.steps = opts.steps;
+    }
 
     var options = this.getOptionsForStep(this.stepIndex);
     options.modalOptions = _.extend({}, this.defaultModalOptions, opts.modalOptions);
