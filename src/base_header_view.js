@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.BaseHeaderView
+// BaseHeaderView
 // ---------------------------------
 //
 // A simple view representing the modal title and dismiss icon.

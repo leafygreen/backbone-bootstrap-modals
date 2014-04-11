@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.BaseModal
+// BaseModal
 // ---------------------------------
 //
 // The base class all other modals extend.
@@ -63,7 +63,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
       $modalContent.append(this.footerView.render().$el);
     }
 
-    if (!this.shown) {
+    if (!this.shown && this.modalOptions.show !== false) {
         this.$el.modal(this.modalOptions);
         this.shown = true;
     }
@@ -84,7 +84,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   // Attempt to use Marionette's close first, falling back to Backbone's remove
   removeSubView: function(view) {
-    if (view.close) {
+    if (Backbone.Marionette && view.close) {
         view.close.apply(view);
     } else if (view.remove) {
         view.remove.apply(view);

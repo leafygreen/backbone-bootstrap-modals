@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.BaseFooterView
+// BaseFooterView
 // ---------------------------------
 //
 // A simple view representing a set of modal action buttons

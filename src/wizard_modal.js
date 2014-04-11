@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.ConfirmationModal
+// WizardModal
 // ---------------------------------
 //
 // A simple modal for dialogs with multi-step wizard behavior
@@ -11,10 +11,14 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   initialize: function(opts) {
+    if (!opts.steps || !_.isArray(opts.steps) || !opts.steps.length) {
+      throw new Error("steps array must be specified and non-empty");
+    }
     this.stepIndex = 0;
     this.steps = opts.steps;
 
     var options = this.getOptionsForStep(this.stepIndex);
+    options.modalOptions = _.extend({}, this.defaultModalOptions, opts.modalOptions);
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 

@@ -55,6 +55,15 @@ module.exports = function(grunt) {
         }
       }
     },
+
+    mocha: {
+      test: {
+        src: ['test/index.html'],
+        options: {
+          run: true
+        }
+      },
+    },
     
     watch: {
       default: {
@@ -70,7 +79,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks('grunt-docco');
+  grunt.loadNpmTasks('grunt-mocha');
 
-  grunt.registerTask('default', ['clean', 'jshint', 'concat:all', 'uglify']);
+  grunt.registerTask('default', ['clean', 'jshint', 'concat:all', 'mocha', 'uglify']);
 
 };

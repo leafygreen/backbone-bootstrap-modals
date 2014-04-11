@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.ConfirmationModal
+// ConfirmationModal
 // ---------------------------------
 //
 // A simple modal for simple confirmation dialogs

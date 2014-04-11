@@ -1,4 +1,4 @@
-// BackboneBootstrapModals.BaseBodyView
+// BaseBodyView
 // ---------------------------------
 //
 // A simple view representing a minimal modal body
