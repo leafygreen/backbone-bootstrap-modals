@@ -3,6 +3,8 @@ backbone-bootstrap-modals
 [![Build Status](https://travis-ci.org/leafygreen/backbone-bootstrap-modals.svg?branch=master)](https://travis-ci.org/leafygreen/backbone-bootstrap-modals)
 [![Code Climate](https://codeclimate.com/github/leafygreen/backbone-bootstrap-modals.png)](https://codeclimate.com/github/leafygreen/backbone-bootstrap-modals)
 
+(STILL IN ALPHA -- We'll do an official release when ready for production.)
+
 The goal of backbone-bootstrap-modals is to produce a set of core Backbone Views
 when working with Bootstrap modal dialogs.
 
