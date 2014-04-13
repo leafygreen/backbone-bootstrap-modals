@@ -11,56 +11,76 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   initialize: function(opts) {
-    if (!opts.steps || !_.isArray(opts.steps) || !opts.steps.length) {
-      throw new Error("steps array must be specified and non-empty");
-    }
-    this.stepIndex = 0;
-    if (!this.steps) {
-      this.steps = opts.steps;
-    }
-
-    var options = this.getOptionsForStep(this.stepIndex);
+    this.initializeSteps(opts);
+    this.setCurrentStep(0);
+    var options = this.getOptionsForCurrentStep();
     options.modalOptions = _.extend({}, this.defaultModalOptions, opts.modalOptions);
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
-  // Return BaseModal options for the current step index
-  getOptionsForStep: function(index) {
-    var step = this.steps[index];
+  initializeSteps: function(opts) {
+    // if the steps structure is not already present, look in options
+    if (!this.steps) {
+      this.steps = opts.steps;
+    }
+    // Validate the steps structure
+    if (!opts.steps || !_.isArray(opts.steps) || !opts.steps.length) {
+      throw new Error("steps array must be specified and non-empty");
+    }
+  },
+
+  setCurrentStep: function(index) {
+    this.currentStepIndex = index;
+    this.currentStep = this.steps[this.currentStepIndex];
+  },
+
+  getPreviousStepIndex: function() {
+    var prev = this.currentStepIndex - 1;
+    if (prev >= 0) {
+      return prev;
+    }
+  },
+
+  getNextStepIndex: function() {
+    return this.currentStepIndex + 1;
+  },
+
+  // Return BaseModal options for the current step
+  getOptionsForCurrentStep: function() {
     return {
       headerViewOptions: {
-        label: step.label,
+        label: this.currentStep.label,
         labelId: 'myModalLabel',
         showClose: true,
       },
-      bodyView: new step.view(step.viewOptions),
+      bodyView: this.currentStep.view,
+      bodyViewOptions: this.currentStep.viewOptions,
       footerViewOptions: {
-        buttons: this.getButtonsForStep(index)
+        buttons: this.getButtonsForCurrentStep()
       }
     };
   },
 
-  getButtonsForStep: function(index) {
-    var step = this.steps[index],
-        previousText = step.previousText || 'Previous',
-        nextText = step.nextText || 'Next';
-    if (index === 0) {
-      return [
-        { id: 'confirmation-next-btn',className: 'btn btn-primary', value: nextText }
-      ];
-    } else {
-      return [
-        { id: 'confirmation-previous-btn',className: 'btn btn-default', value: previousText },
-        { id: 'confirmation-next-btn',className: 'btn btn-primary', value: nextText }
-      ];
+  getButtonsForCurrentStep: function() {
+    var previousText = this.currentStep.previousText || 'Previous',
+        nextText = this.currentStep.nextText || 'Next',
+        previousStepIndex = this.getPreviousStepIndex(),
+        nextStepIndex = this.getNextStepIndex(),
+        buttons = [];
+    if (previousStepIndex) {
+      buttons.push({ id: 'confirmation-previous-btn',className: 'btn btn-default', value: previousText });
     }
+    if (nextStepIndex) {
+      buttons.push({ id: 'confirmation-next-btn',className: 'btn btn-primary', value: nextText });
+    }
+    return buttons;
   },
 
   onClickPrevious: function(e) {
     e.preventDefault();
     e.currentTarget.disabled = true;
-    this.stepIndex -= 1;
-    this.renderStep();
+    this.setCurrentStep(this.getPreviousStepIndex());
+    this.renderCurrentStep();
   },
 
   onClickNext: function(e) {
@@ -75,17 +95,19 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         }
     }
 
-    if (this.stepIndex === this.steps.length-1) {
+    var nextStepIndex = this.getNextStepIndex();
+    if (nextStepIndex > this.steps.length) {
+      // If no more steps, hide the dialog
       this.hide();
     } else {
-      this.stepIndex += 1;
-      this.renderStep();
+      this.setCurrentStep(nextStepIndex);
+      this.renderCurrentStep();
     }
   },
 
   // Remove Previous sub views and initialize sub views for the new step
-  renderStep: function() {
-    var options = this.getOptionsForStep(this.stepIndex);
+  renderCurrentStep: function() {
+    var options = this.getOptionsForCurrentStep();
     BackboneBootstrapModals.BaseModal.prototype.removeSubViews.call(this);
     BackboneBootstrapModals.BaseModal.prototype.initializeSubViews.call(this, options);
     this.render();

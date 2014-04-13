@@ -19,6 +19,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     'hidden.bs.modal': 'onHiddenBsModal'
   },
 
+  // The modal options that will be used if none are passed as options to the constructor
   defaultModalOptions: {
     backdrop: true,
     keyboard: true
@@ -27,18 +28,52 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   initialize: function (opts) {
     var options = opts || {};
     this.initializeSubViews(options);
+    this.modalOptions = _.extend({}, this.defaultModalOptions, options.modalOptions);
     this.shown = false;
   },
 
   // Initialize views for header, body, and footer sections.
-  // If a view property is not passed as an option, a default view will be used.
-  // Additional option properties may be passed in if using the default views.
   // All sub views should respect Bootstrap markup guidelines.
   initializeSubViews: function(options) {
-    this.headerView = (options.headerView) ? options.headerView : new BackboneBootstrapModals.BaseHeaderView(options.headerViewOptions);
-    this.bodyView = (options.bodyView) ? options.bodyView : new BackboneBootstrapModals.BaseBodyView(options.bodyViewOptions);
-    this.footerView = (options.footerView) ? options.footerView : new BackboneBootstrapModals.BaseFooterView(options.footerViewOptions);
-    this.modalOptions = _.extend({}, this.defaultModalOptions, options.modalOptions);
+    // Initialize headerView
+    this.initializeSubView(
+      'headerViewInstance',
+      'headerView',
+      'headerViewOptions',
+      BackboneBootstrapModals.BaseHeaderView,
+      options);
+    // Initialize bodyView
+    this.initializeSubView(
+      'bodyViewInstance',
+      'bodyView',
+      'bodyViewOptions',
+      BackboneBootstrapModals.BaseBodyView,
+      options);
+    // Initialize footerView
+    this.initializeSubView(
+      'footerViewInstance',
+      'footerView',
+      'footerViewOptions',
+      BackboneBootstrapModals.BaseFooterView,
+      options);
+  },
+
+  // Default to using viewKey and viewOptionsKey already present on the view.
+  // Otherwise, check to see if values were passed through options.
+  // If no options specified, use default views for basic functionality.
+  initializeSubView: function(instanceKey, viewKey, viewOptionsKey, defaultView, options) {
+    if (!this[viewOptionsKey]) {
+      this[viewOptionsKey] = options[viewOptionsKey];
+    }
+    if (!this[viewKey]) {
+      if (options[viewKey]) {
+        this[viewKey] = options[viewKey];
+      } else {
+        this[viewKey] = defaultView;
+      }
+    }
+    // Call the specified view constructor with the specified options
+    this[instanceKey] = new this[viewKey](this[viewOptionsKey]);
   },
 
   render: function() {
@@ -52,15 +87,15 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     var $modalContent = this.$el.find('.modal-content');
 
     if (this.headerView) {
-      $modalContent.append(this.headerView.render().$el);
+      $modalContent.append(this.headerViewInstance.render().$el);
     }
 
     if (this.bodyView) {
-      $modalContent.append(this.bodyView.render().$el);
+      $modalContent.append(this.bodyViewInstance.render().$el);
     }
 
     if (this.footerView) {
-      $modalContent.append(this.footerView.render().$el);
+      $modalContent.append(this.footerViewInstance.render().$el);
     }
 
     if (!this.shown && this.modalOptions.show !== false) {
@@ -77,18 +112,22 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   removeSubViews: function() {
-    if (this.headerView) { this.removeSubView(this.headerView); }
-    if (this.bodyView) { this.removeSubView(this.bodyView);  }
-    if (this.footerView) { this.removeSubView(this.footerView);  }
+    if (this.headerView) { this.removeSubView(this.headerViewInstance); }
+    if (this.bodyView) { this.removeSubView(this.bodyViewInstance);  }
+    if (this.footerView) { this.removeSubView(this.footerViewInstance);  }
   },
 
   // Attempt to use Marionette's close first, falling back to Backbone's remove
-  removeSubView: function(view) {
-    if (Backbone.Marionette && view.close) {
-        view.close.apply(view);
-    } else if (view.remove) {
-        view.remove.apply(view);
+  removeSubView: function(viewInstance) {
+    if (Backbone.Marionette && viewInstance.close) {
+        viewInstance.close.apply(viewInstance);
+    } else if (viewInstance.remove) {
+        viewInstance.remove.apply(viewInstance);
     }
+  },
+
+  show: function() {
+    this.$el.modal('show');
   },
 
   hide: function() {

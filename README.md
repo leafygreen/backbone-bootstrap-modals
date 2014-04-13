@@ -30,20 +30,23 @@ A basic example of using the BaseModal when passing in sub views.
 
 ```javascript
 var modal = new BackboneBootstrapModals.BaseModal({
-  headerView: new BackboneBootstrapModals.BaseHeaderView({
+  headerView: BackboneBootstrapModals.BaseHeaderView,
+  headerViewOptons: {
     label: 'Example Dialog',
     labelId: 'myModalLabel',
     showClose: true,
-  }),
-  bodyView: new BackboneBootstrapModals.BaseBodyView({
+  },
+  bodyView: BackboneBootstrapModals.BaseBodyView,
+  bodyViewOptions: {
     text: 'This is an example body.'
-  }),
-  footerView: new BackboneBootstrapModals.BaseFooterView({
+  },
+  footerView: BackboneBootstrapModals.BaseFooterView,
+  footerViewOptions: {
     buttons: [
       { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
       { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
     ]
-  }),
+  },
   modalOptions: {
     backdrop: true,
     keyboard: true
@@ -108,7 +111,7 @@ var modal = new BackboneBootstrapModals.WizardModal({
     viewOptions: { text: 'This is step one' },
     onNext: function() {
       console.log('next for step one');
-  }
+    }
   },
   {
     label: 'Wizard: Step Two',

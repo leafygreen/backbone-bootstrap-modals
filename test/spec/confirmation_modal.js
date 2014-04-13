@@ -76,7 +76,7 @@
       });
       var modal = new BackboneBootstrapModals.ConfirmationModal({
         label: 'Confirm Custom Action',
-        bodyView: new CustomView(),
+        bodyView: CustomView,
         onConfirm: function() {
         },
         onCancel: function() {
