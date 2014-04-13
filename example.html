@@ -34,20 +34,23 @@
         $('#show-full-base-modal-btn').click(function(e) {
           e.preventDefault();
           var modal = new BackboneBootstrapModals.BaseModal({
-            headerView: new BackboneBootstrapModals.BaseHeaderView({
+            headerView: BackboneBootstrapModals.BaseHeaderView,
+            headerViewOptions: {
               label: 'Example Dialog',
               labelId: 'myModalLabel',
               showClose: true,
-            }),
-            bodyView: new BackboneBootstrapModals.BaseBodyView({
+            },
+            bodyView: BackboneBootstrapModals.BaseBodyView,
+            bodyViewOptions: {
               text: 'This is an example body.'
-            }),
-            footerView: new BackboneBootstrapModals.BaseFooterView({
+            },
+            footerView: BackboneBootstrapModals.BaseFooterView,
+            footerViewOptions: {
               buttons: [
                 { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
                 { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
               ]
-            }),
+            },
             modalOptions: {
               backdrop: true,
               keyboard: true
