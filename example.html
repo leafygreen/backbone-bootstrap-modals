@@ -115,10 +115,11 @@
         $('#show-wizard-modal-btn').click(function(e) {
           e.preventDefault();
           var modal = new BackboneBootstrapModals.WizardModal({
-            steps: [{
+            stepGraph: [{
                 label: 'Wizard: Step One',
                 view: BackboneBootstrapModals.BaseBodyView,
                 viewOptions: { text: 'This is step one' },
+                nextIndex: 1,
                 onNext: function() {
                     console.log('next for step one');
                 }
@@ -127,6 +128,8 @@
                 label: 'Wizard: Step Two',
                 view: BackboneBootstrapModals.BaseBodyView,
                 viewOptions: { text: 'This is step two' },
+                nextIndex: 2,
+                previousIndex: 0,
                 onNext: function() {
                     console.log('next for step two');
                 }
@@ -136,6 +139,7 @@
                 view: BackboneBootstrapModals.BaseBodyView,
                 viewOptions: { text: 'This is step three' },
                 nextText: 'Finish',
+                previousIndex: 1,
                 onNext: function() {
                     console.log('next for step three');
                 }
