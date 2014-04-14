@@ -13,36 +13,26 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   initialize: function(opts) {
     this.initializeSteps(opts);
     this.setCurrentStep(0);
+    
+    // Create a custom set of options to pass to BaseModal
     var options = this.getOptionsForCurrentStep();
     options.modalOptions = _.extend({}, this.defaultModalOptions, opts.modalOptions);
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
   initializeSteps: function(opts) {
-    // if the steps structure is not already present, look in options
-    if (!this.steps) {
-      this.steps = opts.steps;
+    // Override any defined stepGraph with the one in options if present
+    if (opts.stepGraph) {
+      this.stepGraph = opts.stepGraph;
     }
     // Validate the steps structure
-    if (!opts.steps || !_.isArray(opts.steps) || !opts.steps.length) {
+    if (!this.stepGraph || !_.isArray(this.stepGraph) || !this.stepGraph.length) {
       throw new Error("steps array must be specified and non-empty");
     }
   },
 
   setCurrentStep: function(index) {
-    this.currentStepIndex = index;
-    this.currentStep = this.steps[this.currentStepIndex];
-  },
-
-  getPreviousStepIndex: function() {
-    var prev = this.currentStepIndex - 1;
-    if (prev >= 0) {
-      return prev;
-    }
-  },
-
-  getNextStepIndex: function() {
-    return this.currentStepIndex + 1;
+    this.currentStep = this.stepGraph[index];
   },
 
   // Return BaseModal options for the current step
@@ -64,28 +54,51 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   getButtonsForCurrentStep: function() {
-    var previousText = this.currentStep.previousText || 'Previous',
+    var previousStepIndex = this.currentStep.previousIndex,
+        previousText = this.currentStep.previousText || 'Previous',
+        nextStepIndex = this.currentStep.nextIndex,
         nextText = this.currentStep.nextText || 'Next',
-        previousStepIndex = this.getPreviousStepIndex(),
-        nextStepIndex = this.getNextStepIndex(),
         buttons = [];
-    if (previousStepIndex) {
+    if (previousStepIndex !== undefined) {
       buttons.push({ id: 'confirmation-previous-btn',className: 'btn btn-default', value: previousText });
     }
-    if (nextStepIndex) {
-      buttons.push({ id: 'confirmation-next-btn',className: 'btn btn-primary', value: nextText });
-    }
+    buttons.push({ id: 'confirmation-next-btn',className: 'btn btn-primary', value: nextText });
     return buttons;
+  },
+
+  // Remove previous subviews and initialize subviews for the new step
+  renderSubviews: function() {
+    var options = this.getOptionsForCurrentStep();
+    BackboneBootstrapModals.BaseModal.prototype.removeSubviews.call(this);
+    BackboneBootstrapModals.BaseModal.prototype.initializeSubviews.call(this, options);
+    this.render();
+  },
+
+  renderPreviousStep: function() {
+    this.setCurrentStep(this.currentStep.previousIndex);
+    this.renderSubviews();
+  },
+
+  renderNextStep: function() {
+    console.log("renderNextStep "+this.currentStep.nextIndex);
+    var nextStepIndex = this.currentStep.nextIndex;
+    if (nextStepIndex !== undefined) {
+      this.setCurrentStep(nextStepIndex);
+      this.renderSubviews();
+    } else {
+      // If no more steps, hide the dialog
+      this.hide();
+    }
   },
 
   onClickPrevious: function(e) {
     e.preventDefault();
     e.currentTarget.disabled = true;
-    this.setCurrentStep(this.getPreviousStepIndex());
-    this.renderCurrentStep();
+    this.renderPreviousStep();
   },
 
   onClickNext: function(e) {
+    console.log('onClickNext');
     e.preventDefault();
     e.currentTarget.disabled = true;
 
@@ -97,21 +110,6 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         }
     }
 
-    var nextStepIndex = this.getNextStepIndex();
-    if (nextStepIndex > this.steps.length) {
-      // If no more steps, hide the dialog
-      this.hide();
-    } else {
-      this.setCurrentStep(nextStepIndex);
-      this.renderCurrentStep();
-    }
-  },
-
-  // Remove Previous sub views and initialize sub views for the new step
-  renderCurrentStep: function() {
-    var options = this.getOptionsForCurrentStep();
-    BackboneBootstrapModals.BaseModal.prototype.removeSubViews.call(this);
-    BackboneBootstrapModals.BaseModal.prototype.initializeSubViews.call(this, options);
-    this.render();
+    this.renderNextStep();
   }
 });

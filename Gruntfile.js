@@ -25,10 +25,10 @@ module.exports = function(grunt) {
         },
         src: [
           'src/initializer.js',
-          'src/base_modal.js',
           'src/base_header_view.js',
           'src/base_body_view.js',
           'src/base_footer_view.js',
+          'src/base_modal.js',
           'src/confirmation_modal.js',
           'src/wizard_modal.js'
         ],

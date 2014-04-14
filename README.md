@@ -107,10 +107,11 @@ A basic example of the Wizard functionality.
 
 ```javascript
 var modal = new BackboneBootstrapModals.WizardModal({
-  steps: [{
+  stepGraph: [{
     label: 'Wizard: Step One',
     view: BackboneBootstrapModals.BaseBodyView,
     viewOptions: { text: 'This is step one' },
+    nextIndex: 1,
     onNext: function() {
       console.log('next for step one');
     }
@@ -119,6 +120,8 @@ var modal = new BackboneBootstrapModals.WizardModal({
     label: 'Wizard: Step Two',
     view: BackboneBootstrapModals.BaseBodyView,
     viewOptions: { text: 'This is step two' },
+    nextIndex: 1,
+    previousIndex: 0,
     onNext: function() {
       console.log('next for step two');
     }
@@ -128,6 +131,7 @@ var modal = new BackboneBootstrapModals.WizardModal({
     view: BackboneBootstrapModals.BaseBodyView,
     viewOptions: { text: 'This is step three' },
     nextText: 'Finish',
+    previousIndex: 1,
     onNext: function() {
       console.log('next for step three');
     }

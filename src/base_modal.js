@@ -19,6 +19,11 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     'hidden.bs.modal': 'onHiddenBsModal'
   },
 
+  // The default views if not overridden or specified in options
+  headerView: BackboneBootstrapModals.BaseHeaderView,
+  bodyView: BackboneBootstrapModals.BaseBodyView,
+  footerView: BackboneBootstrapModals.BaseFooterView,
+
   // The modal options that will be used if none are passed as options to the constructor
   defaultModalOptions: {
     backdrop: true,
@@ -27,53 +32,48 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   initialize: function (opts) {
     var options = opts || {};
-    this.initializeSubViews(options);
-    this.modalOptions = _.extend({}, this.defaultModalOptions, options.modalOptions);
     this.shown = false;
+    this.modalOptions = _.extend({}, this.defaultModalOptions, options.modalOptions);
+    this.initializeSubviews(options);
   },
 
   // Initialize views for header, body, and footer sections.
-  // All sub views should respect Bootstrap markup guidelines.
-  initializeSubViews: function(options) {
+  // All subviews should respect Bootstrap markup guidelines.
+  initializeSubviews: function(options) {
     // Initialize headerView
-    this.initializeSubView(
-      'headerViewInstance',
+    this.headerViewInstance = this.buildSubview(
       'headerView',
       'headerViewOptions',
-      BackboneBootstrapModals.BaseHeaderView,
       options);
     // Initialize bodyView
-    this.initializeSubView(
-      'bodyViewInstance',
+    this.bodyViewInstance = this.buildSubview(
       'bodyView',
       'bodyViewOptions',
-      BackboneBootstrapModals.BaseBodyView,
       options);
     // Initialize footerView
-    this.initializeSubView(
-      'footerViewInstance',
+    this.footerViewInstance = this.buildSubview(
       'footerView',
       'footerViewOptions',
-      BackboneBootstrapModals.BaseFooterView,
       options);
   },
 
   // Default to using viewKey and viewOptionsKey already present on the view.
   // Otherwise, check to see if values were passed through options.
-  // If no options specified, use default views for basic functionality.
-  initializeSubView: function(instanceKey, viewKey, viewOptionsKey, defaultView, options) {
-    if (!this[viewOptionsKey]) {
+  buildSubview: function(viewKey, viewOptionsKey, options) {
+    // Override any defined viewOptions with the one in options if present
+    if (options[viewOptionsKey]) {
       this[viewOptionsKey] = options[viewOptionsKey];
     }
+    // Override any defined view with the one in options if present
+    if (options[viewKey]) {
+      this[viewKey] = options[viewKey];
+    }
+    // Validate the view is present
     if (!this[viewKey]) {
-      if (options[viewKey]) {
-        this[viewKey] = options[viewKey];
-      } else {
-        this[viewKey] = defaultView;
-      }
+      throw new Error(viewKey+" must be specified");
     }
     // Call the specified view constructor with the specified options
-    this[instanceKey] = new this[viewKey](this[viewOptionsKey]);
+    return new this[viewKey](this[viewOptionsKey]);
   },
 
   render: function() {
@@ -100,25 +100,24 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
     if (!this.shown && this.modalOptions.show !== false) {
         this.$el.modal(this.modalOptions);
-        this.shown = true;
     }
 
     return this;
   },
 
   remove: function () {
-    this.removeSubViews();
+    this.removeSubviews();
     return Backbone.View.prototype.remove.apply(this, arguments);
   },
 
-  removeSubViews: function() {
-    if (this.headerView) { this.removeSubView(this.headerViewInstance); }
-    if (this.bodyView) { this.removeSubView(this.bodyViewInstance);  }
-    if (this.footerView) { this.removeSubView(this.footerViewInstance);  }
+  removeSubviews: function() {
+    if (this.headerView) { this.removeSubview(this.headerViewInstance); }
+    if (this.bodyView) { this.removeSubview(this.bodyViewInstance);  }
+    if (this.footerView) { this.removeSubview(this.footerViewInstance);  }
   },
 
   // Attempt to use Marionette's close first, falling back to Backbone's remove
-  removeSubView: function(viewInstance) {
+  removeSubview: function(viewInstance) {
     if (Backbone.Marionette && viewInstance.close) {
         viewInstance.close.apply(viewInstance);
     } else if (viewInstance.remove) {
@@ -140,6 +139,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   // This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). 
   onShownBsModal: function(e) {
+      this.shown = true;
   },
 
   // This event is fired immediately when the hide instance method has been called.
@@ -148,6 +148,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   // This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).
   onHiddenBsModal: function(e) {
+    this.shown = false;
     this.remove();
   },
 
