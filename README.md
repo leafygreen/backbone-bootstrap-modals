@@ -49,6 +49,9 @@ var modal = new BackboneBootstrapModals.BaseModal({
       { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
     ]
   },
+  events: {
+    "click #full-modal-apply-btn" : "hide"
+  },
   modalOptions: {
     backdrop: true,
     keyboard: true
@@ -74,6 +77,9 @@ var modal = new BackboneBootstrapModals.BaseModal({
       { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
       { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
     ]
+  },
+  events: {
+    "click #simple-modal-apply-btn" : "hide"
   },
   modalOptions: {
     backdrop: true,
