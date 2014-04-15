@@ -392,7 +392,8 @@ Otherwise, check to see if values were passed through options.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  buildSubview: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(viewKey, viewOptionsKey, options)</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  buildSubview: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(viewKey, viewOptionsKey, options)</span> {</span>
+    <span class="hljs-keyword">var</span> viewOptions = _.result(<span class="hljs-keyword">this</span>, viewOptionsKey);</pre></div></div>
             
         </li>
         
@@ -408,7 +409,7 @@ Otherwise, check to see if values were passed through options.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (options[viewOptionsKey]) {
-      <span class="hljs-keyword">this</span>[viewOptionsKey] = options[viewOptionsKey];
+      viewOptions = _.result(options, viewOptionsKey);
     }</pre></div></div>
             
         </li>
@@ -459,10 +460,10 @@ additionally the modal’s model/collection attributes</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> viewOptions = _.extend({
+            <div class="content"><div class='highlight'><pre>    viewOptions = _.extend({
       model: <span class="hljs-keyword">this</span>.model,
       collection: <span class="hljs-keyword">this</span>.collection
-    }, <span class="hljs-keyword">this</span>[viewOptionsKey]);
+    }, viewOptions);
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">this</span>[viewKey](viewOptions);
   },</pre></div></div>
             
@@ -710,12 +711,14 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   },
 
   initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(opts)</span> {</span>
-    <span class="hljs-keyword">var</span> options = _.extend({}, <span class="hljs-keyword">this</span>.defaultOptions, opts);
-    <span class="hljs-keyword">if</span> (options.headerViewOptions &amp;&amp; options.label) {
-        options.headerViewOptions.label = options.label;
+    <span class="hljs-keyword">var</span> options = _.extend({}, <span class="hljs-keyword">this</span>.defaultOptions, opts),
+        label = options.label || <span class="hljs-keyword">this</span>.label,
+        text = options.text || <span class="hljs-keyword">this</span>.text;
+    <span class="hljs-keyword">if</span> (options.headerViewOptions &amp;&amp; label) {
+        options.headerViewOptions.label = label;
     }
     <span class="hljs-keyword">if</span> (options.bodyViewOptions &amp;&amp; options.text) {
-        options.bodyViewOptions.text = options.text;
+        options.bodyViewOptions.text = text;
     }
     <span class="hljs-keyword">if</span> (options.onConfirm) {
       <span class="hljs-keyword">this</span>.onConfirm = options.onConfirm;
