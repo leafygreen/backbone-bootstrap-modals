@@ -51,17 +51,15 @@
                 { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
               ]
             },
+            events: {
+              "click #full-modal-apply-btn" : "hide"
+            },
             modalOptions: {
               backdrop: true,
               keyboard: true
             }
           });
           modal.render();
-
-          // Add handler for apply button
-          modal.$el.click('#full-modal-apply-btn', function() {
-            modal.hide();
-          });
         });
 
         // Example BaseModal when using default sub views
@@ -82,17 +80,15 @@
                 { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
               ]
             },
+            events: {
+              "click #simple-modal-apply-btn" : "hide"
+            },
             modalOptions: {
               backdrop: true,
               keyboard: true
             }
           });
           modal.render();
-
-          // Add handler for apply button
-          modal.$el.click('#full-modal-apply-btn', function() {
-            modal.hide();
-          });
         });
 
         // Example Confirmation Modal
@@ -103,9 +99,6 @@
             text: 'Are you sure you want to do that?',
             onConfirm: function() {
                 console.log("action confirmed");
-            },
-            onCancel: function() {
-                console.log("action canceled");
             }
           });
           modal.render();
