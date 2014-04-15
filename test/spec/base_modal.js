@@ -3,17 +3,22 @@
 (function () {
   'use strict';
 
-  describe('BaseModal', function () {
-    describe('with no options', function () {
-      var modal = new BackboneBootstrapModals.BaseModal({
-        modalOptions: {
-          show: false
-        }
+  describe('BaseModal', function() {
+    describe('with no options', function() {
+      var modal;
+
+      beforeEach(function() {
+        modal = new BackboneBootstrapModals.BaseModal({
+          modalOptions: {
+            show: false
+          }
+        });
       });
 
-      it('should render default markup', function () {
+      it('should render default markup', function() {
         modal.render();
-        assert.equal('<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
@@ -24,34 +29,38 @@
                            '<div class="modal-footer"></div>'+
                          '</div>'+
                        '</div>'+
-                     '</div>',
-                     modal.el.outerHTML);
+                     '</div>');
       });
     });
 
-    describe('with basic options', function () {
-      var modal = new BackboneBootstrapModals.BaseModal({
-        headerViewOptions: {
-          label: 'Example Dialog',
-          labelId: 'exampleModalLabel'
-        },
-        bodyViewOptions: {
-          text: 'This is an example body.'
-        },
-        footerViewOptions: {
-          buttons: [
-            { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
-            { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
-          ]
-        },
-        modalOptions: {
-          show: false
-        }
+    describe('with basic options', function() {
+      var modal;
+
+      beforeEach(function() {
+        modal = new BackboneBootstrapModals.BaseModal({
+          headerViewOptions: {
+            label: 'Example Dialog',
+            labelId: 'exampleModalLabel'
+          },
+          bodyViewOptions: {
+            text: 'This is an example body.'
+          },
+          footerViewOptions: {
+            buttons: [
+              { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+              { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+            ]
+          },
+          modalOptions: {
+            show: false
+          }
+        });
       });
 
-      it('should render default markup', function () {
+      it('should render default markup', function() {
         modal.render();
-        assert.equal('<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
@@ -65,45 +74,49 @@
                            '</div>'+
                          '</div>'+
                        '</div>'+
-                     '</div>',
-                     modal.el.outerHTML);
+                     '</div>');
       });
     });
 
-    describe('with custom views', function () {
-      var HeaderView = Backbone.View.extend({
-        className: 'modal-header',
-        render: function() {
-            this.$el.html("<h3>Custom Header</h3>");
-            return this;
-        }
-      });
-      var BodyView = Backbone.View.extend({
-        className: 'modal-body',
-        render: function() {
-            this.$el.html("<u>Custom Body</u>");
-            return this;
-        }
-      });
-      var FooterView = Backbone.View.extend({
-        className: 'modal-footer',
-        render: function() {
-            this.$el.html("<button>Custom Footer</button>");
-            return this;
-        }
-      });
-      var modal = new BackboneBootstrapModals.BaseModal({
-        headerView: HeaderView,
-        bodyView: BodyView,
-        footerView: FooterView,
-        modalOptions: {
-          show: false
-        }
+    describe('with custom views', function() {
+      var modal;
+
+      beforeEach(function() {
+        var HeaderView = Backbone.View.extend({
+          className: 'modal-header',
+          render: function() {
+              this.$el.html("<h3>Custom Header</h3>");
+              return this;
+          }
+        });
+        var BodyView = Backbone.View.extend({
+          className: 'modal-body',
+          render: function() {
+              this.$el.html("<u>Custom Body</u>");
+              return this;
+          }
+        });
+        var FooterView = Backbone.View.extend({
+          className: 'modal-footer',
+          render: function() {
+              this.$el.html("<button>Custom Footer</button>");
+              return this;
+          }
+        });
+        modal = new BackboneBootstrapModals.BaseModal({
+          headerView: HeaderView,
+          bodyView: BodyView,
+          footerView: FooterView,
+          modalOptions: {
+            show: false
+          }
+        });
       });
 
-      it('should render default markup', function () {
+      it('should render default markup', function() {
         modal.render();
-        assert.equal('<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
@@ -115,47 +128,51 @@
                            '</div>'+
                          '</div>'+
                        '</div>'+
-                     '</div>',
-                     modal.el.outerHTML);
+                     '</div>');
       });
     });
 
-    describe('when extended', function () {
-      var HeaderView = Backbone.View.extend({
-        className: 'modal-header',
-        render: function() {
-            this.$el.html("<h3>Custom Header</h3>");
-            return this;
-        }
-      });
-      var BodyView = Backbone.View.extend({
-        className: 'modal-body',
-        render: function() {
-            this.$el.html("<u>Custom Body</u>");
-            return this;
-        }
-      });
-      var FooterView = Backbone.View.extend({
-        className: 'modal-footer',
-        render: function() {
-            this.$el.html("<button>Custom Footer</button>");
-            return this;
-        }
-      });
-      var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
-        headerView: HeaderView,
-        bodyView: BodyView,
-        footerView: FooterView
-      });
-      var modal = new ExtendedModal({
-        modalOptions: {
-          show: false
-        }
+    describe('when extended', function() {
+      var modal;
+
+      beforeEach(function() {
+        var HeaderView = Backbone.View.extend({
+          className: 'modal-header',
+          render: function() {
+              this.$el.html("<h3>Custom Header</h3>");
+              return this;
+          }
+        });
+        var BodyView = Backbone.View.extend({
+          className: 'modal-body',
+          render: function() {
+              this.$el.html("<u>Custom Body</u>");
+              return this;
+          }
+        });
+        var FooterView = Backbone.View.extend({
+          className: 'modal-footer',
+          render: function() {
+              this.$el.html("<button>Custom Footer</button>");
+              return this;
+          }
+        });
+        var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
+          headerView: HeaderView,
+          bodyView: BodyView,
+          footerView: FooterView
+        });
+        modal = new ExtendedModal({
+          modalOptions: {
+            show: false
+          }
+        });
       });
 
-      it('should render default markup', function () {
+      it('should render default markup', function() {
         modal.render();
-        assert.equal('<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
@@ -167,8 +184,67 @@
                            '</div>'+
                          '</div>'+
                        '</div>'+
-                     '</div>',
-                     modal.el.outerHTML);
+                     '</div>');
+      });
+    });
+
+    describe('when using forwarded model property in views', function() {
+      var modal;
+
+      beforeEach(function() {
+        var model = new Backbone.Model({
+          name: "TestModelName"
+        });
+        var HeaderView = Backbone.View.extend({
+          className: 'modal-header',
+          render: function() {
+              this.$el.html("<h3>"+this.model.get('name')+"</h3>");
+              return this;
+          }
+        });
+        var BodyView = Backbone.View.extend({
+          className: 'modal-body',
+          render: function() {
+              this.$el.html("<u>"+this.model.get('name')+"</u>");
+              return this;
+          }
+        });
+        var FooterView = Backbone.View.extend({
+          className: 'modal-footer',
+          render: function() {
+              this.$el.html("<button>"+this.model.get('name')+"</button>");
+              return this;
+          }
+        });
+        var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
+          model: model,
+          headerView: HeaderView,
+          bodyView: BodyView,
+          footerView: FooterView
+        });
+        modal = new ExtendedModal({
+          modalOptions: {
+            show: false
+          }
+        });
+      });
+
+      it('should render expected markup', function() {
+        modal.render();
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+                       '<div class="modal-dialog">'+
+                         '<div class="modal-content">'+
+                           '<div class="modal-header">'+
+                             '<h3>TestModelName</h3>'+
+                           '</div>'+
+                           '<div class="modal-body"><u>TestModelName</u></div>'+
+                           '<div class="modal-footer">'+
+                             '<button>TestModelName</button>'+
+                           '</div>'+
+                         '</div>'+
+                       '</div>'+
+                     '</div>');
       });
     });
 

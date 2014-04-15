@@ -11,8 +11,8 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     'aria-labelledby': 'myModalLabel'
   },
   
-  // Register Handlers for Bootstrap Modal Events: http://getbootstrap.com/javascript/#modals
-  events: {
+  // Handlers for Bootstrap Modal Events: http://getbootstrap.com/javascript/#modals
+  bootstrapModalEvents: {
     'show.bs.modal': 'onShowBsModal',
     'shown.bs.modal': 'onShownBsModal',
     'hide.bs.modal': 'onHideBsModal',
@@ -24,8 +24,8 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   bodyView: BackboneBootstrapModals.BaseBodyView,
   footerView: BackboneBootstrapModals.BaseFooterView,
 
-  // The modal options that will be used if none are passed as options to the constructor
-  defaultModalOptions: {
+  // The default modal options if not overridden or specified in options
+  modalOptions: {
     backdrop: true,
     keyboard: true
   },
@@ -33,7 +33,9 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   initialize: function (opts) {
     var options = opts || {};
     this.shown = false;
-    this.modalOptions = _.extend({}, this.defaultModalOptions, options.modalOptions);
+    if (options.modalOptions) {
+      this.modalOptions = options.modalOptions;
+    }
     this.initializeSubviews(options);
   },
 
@@ -72,8 +74,31 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     if (!this[viewKey]) {
       throw new Error(viewKey+" must be specified");
     }
-    // Call the specified view constructor with the specified options
-    return new this[viewKey](this[viewOptionsKey]);
+    // Call the specified view constructor with the specified options, and
+    // additionally the modal's model/collection attributes
+    var viewOptions = _.extend({
+      model: this.model,
+      collection: this.collection
+    }, this[viewOptionsKey]);
+    return new this[viewKey](viewOptions);
+  },
+
+  // Override default implementation to always include bootstrapModalEvents
+  delegateEvents: function(events) {
+    var combinedEvents = events || _.result(this, 'events') || {};
+
+    _.each(this.getAdditionalEventsToDelegate(), function(eventHash) {
+      _.extend(combinedEvents, eventHash);
+    });
+
+    Backbone.View.prototype.delegateEvents.call(this, combinedEvents);
+  },
+
+  // Helper method for use in overridden delegateEvents call.
+  // This can be overridden in extended classes if you want similiar
+  // behavior of not clobbering the default events hash -- See ConfirmationModal.confirmationEvents
+  getAdditionalEventsToDelegate: function() {
+    return [this.bootstrapModalEvents];
   },
 
   render: function() {
@@ -134,7 +159,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   // This event fires immediately when the show instance method is called.
-  onShowBsModal: function(e) {
+  onShowBsModal: function() {
   },
 
   // This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). 
@@ -143,7 +168,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   // This event is fired immediately when the hide instance method has been called.
-  onHideBsModal: function(e) {
+  onHideBsModal: function() {
   },
 
   // This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).

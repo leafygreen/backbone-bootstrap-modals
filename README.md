@@ -93,9 +93,6 @@ var modal = new BackboneBootstrapModals.ConfirmationModal({
   text: 'Are you sure you want to do that?',
   onConfirm: function() {
     console.log("action confirmed");
-  },
-  onCancel: function() {
-    console.log("action canceled");
   }
 });
 modal.render();
@@ -120,7 +117,7 @@ var modal = new BackboneBootstrapModals.WizardModal({
     label: 'Wizard: Step Two',
     view: BackboneBootstrapModals.BaseBodyView,
     viewOptions: { text: 'This is step two' },
-    nextIndex: 1,
+    nextIndex: 2,
     previousIndex: 0,
     onNext: function() {
       console.log('next for step two');

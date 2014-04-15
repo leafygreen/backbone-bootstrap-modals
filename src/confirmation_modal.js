@@ -5,8 +5,7 @@
 
 BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.extend({
 
-  events: {
-    'click #confirmation-cancel-btn': 'onClickCancel',
+  confirmationEvents: {
     'click #confirmation-confirm-btn': 'onClickConfirm'
   },
 
@@ -36,29 +35,26 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     if (options.bodyViewOptions && options.text) {
         options.bodyViewOptions.text = options.text;
     }
-
-    this.onCancel = options.onCancel;
-    this.onConfirm = options.onConfirm;
+    if (options.onConfirm) {
+      this.onConfirm = options.onConfirm;
+    }
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
-  onClickCancel: function(e) {
-    e.preventDefault();
-    e.currentTarget.disabled = true;
-    this.executeCallbackAndHide(this.onConfirm);
+  // Override BaseModal hook to add additional default delegated events
+  getAdditionalEventsToDelegate: function() {
+    var eventHashes = BackboneBootstrapModals.BaseModal.prototype.getAdditionalEventsToDelegate.call(this);
+    return eventHashes.concat(this.confirmationEvents);
   },
 
   onClickConfirm: function(e) {
     e.preventDefault();
     e.currentTarget.disabled = true;
-    this.executeCallbackAndHide(this.onConfirm);
-  },
 
-  // Execute the specified callback if it exists, then hide the modal.
-  // The modal will not be hidden if the callback returns false.
-  executeCallbackAndHide: function(callback) {
-    if (callback) {
-        if (callback.call() !== false) {
+    // Execute the specified callback if it exists, then hide the modal.
+    // The modal will not be hidden if the callback returns false.
+    if (this.onConfirm) {
+        if (this.onConfirm.call(this) !== false) {
             this.hide();
         }
     } else {

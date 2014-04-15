@@ -5,18 +5,18 @@
 
 BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
-  events: {
+  wizardEvents: {
     'click #confirmation-previous-btn': 'onClickPrevious',
     'click #confirmation-next-btn': 'onClickNext'
   },
 
   initialize: function(opts) {
     this.initializeSteps(opts);
-    this.setCurrentStep(0);
+    this.setCurrentStep(0); // always start with the first element
     
     // Create a custom set of options to pass to BaseModal
     var options = this.getOptionsForCurrentStep();
-    options.modalOptions = _.extend({}, this.defaultModalOptions, opts.modalOptions);
+    options.modalOptions = opts.modalOptions;
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
@@ -66,6 +66,12 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     return buttons;
   },
 
+  // Override BaseModal hook to add additional default delegated events
+  getAdditionalEventsToDelegate: function() {
+    var eventHashes = BackboneBootstrapModals.BaseModal.prototype.getAdditionalEventsToDelegate.call(this);
+    return eventHashes.concat(this.wizardEvents);
+  },
+
   // Remove previous subviews and initialize subviews for the new step
   renderSubviews: function() {
     var options = this.getOptionsForCurrentStep();
@@ -80,7 +86,6 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   renderNextStep: function() {
-    console.log("renderNextStep "+this.currentStep.nextIndex);
     var nextStepIndex = this.currentStep.nextIndex;
     if (nextStepIndex !== undefined) {
       this.setCurrentStep(nextStepIndex);
@@ -98,14 +103,13 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   },
 
   onClickNext: function(e) {
-    console.log('onClickNext');
     e.preventDefault();
     e.currentTarget.disabled = true;
 
     // Execute the specified callback if it exists, then proceed.
     // The modal will not proceed if the callback returns false.
-    if (this.onNext) {
-        if (this.onNext.call() === false) {
+    if (this.currentStep.onNext) {
+        if (this.currentStep.onNext.call(this) === false) {
             return;
         }
     }
