@@ -248,5 +248,57 @@
       });
     });
 
+    describe('when view options are functions', function() {
+      var modal;
+
+      beforeEach(function() {
+        var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
+          headerViewOptions: function() {
+            return {
+              label: 'Function Dialog'
+            };
+          },
+          bodyViewOptions: function() {
+            return {
+              text: 'This is a function option.'
+            };
+          },
+          footerViewOptions: function() {
+            return {
+              buttons: [
+                { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+                { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Function' }
+              ]
+            };
+          }
+        });
+        modal = new ExtendedModal({
+          modalOptions: {
+            show: false
+          }
+        });
+      });
+
+      it('should render expected markup', function() {
+        modal.render();
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+                       '<div class="modal-dialog">'+
+                         '<div class="modal-content">'+
+                           '<div class="modal-header">'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<h4 id="myModalLabel" class="modal-title">Function Dialog</h4>'+
+                           '</div>'+
+                           '<div class="modal-body"><p>This is a function option.</p></div>'+
+                           '<div class="modal-footer">'+
+                             '<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>'+
+                             '<button id="full-modal-apply-btn" class="btn btn-primary">Function</button>'+
+                           '</div>'+
+                         '</div>'+
+                       '</div>'+
+                     '</div>');
+      });
+    });
+
   });
 })();

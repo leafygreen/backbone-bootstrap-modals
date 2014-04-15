@@ -62,9 +62,10 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   // Default to using viewKey and viewOptionsKey already present on the view.
   // Otherwise, check to see if values were passed through options.
   buildSubview: function(viewKey, viewOptionsKey, options) {
+    var viewOptions = _.result(this, viewOptionsKey);
     // Override any defined viewOptions with the one in options if present
     if (options[viewOptionsKey]) {
-      this[viewOptionsKey] = options[viewOptionsKey];
+      viewOptions = _.result(options, viewOptionsKey);
     }
     // Override any defined view with the one in options if present
     if (options[viewKey]) {
@@ -76,10 +77,10 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     }
     // Call the specified view constructor with the specified options, and
     // additionally the modal's model/collection attributes
-    var viewOptions = _.extend({
+    viewOptions = _.extend({
       model: this.model,
       collection: this.collection
-    }, this[viewOptionsKey]);
+    }, viewOptions);
     return new this[viewKey](viewOptions);
   },
 

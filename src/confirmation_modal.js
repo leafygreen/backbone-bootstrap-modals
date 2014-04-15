@@ -28,12 +28,14 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   },
 
   initialize: function(opts) {
-    var options = _.extend({}, this.defaultOptions, opts);
-    if (options.headerViewOptions && options.label) {
-        options.headerViewOptions.label = options.label;
+    var options = _.extend({}, this.defaultOptions, opts),
+        label = options.label || this.label,
+        text = options.text || this.text;
+    if (options.headerViewOptions && label) {
+        options.headerViewOptions.label = label;
     }
     if (options.bodyViewOptions && options.text) {
-        options.bodyViewOptions.text = options.text;
+        options.bodyViewOptions.text = text;
     }
     if (options.onConfirm) {
       this.onConfirm = options.onConfirm;
