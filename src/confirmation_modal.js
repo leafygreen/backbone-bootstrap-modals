@@ -27,14 +27,14 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     if (this.showCancel || true) {
       buttons.push({
         id: 'confirmation-cancel-btn',
-        className: 'btn btn-default',
+        className: 'btn '+ (this.cancelClassName || 'btn-default'),
         value: _.result(this, 'cancelText') || 'Cancel',
         attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }
       });
     }
     buttons.push({
       id: 'confirmation-confirm-btn',
-      className: 'btn btn-primary',
+      className: 'btn '+ (this.confirmClassName || 'btn-primary'),
       value: _.result(this, 'confirmText') || 'Confirm'
     });
     return {
@@ -53,8 +53,14 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     if (options.confirmText) {
       this.confirmText = options.confirmText;
     }
+    if (options.confirmClassName) {
+      this.confirmClassName = options.confirmClassName;
+    }
     if (options.cancelText) {
       this.cancelText = options.cancelText;
+    }
+    if (options.cancelClassName) {
+      this.cancelClassName = options.cancelClassName;
     }
     if (options.hideCancel) {
       this.showCancel = options.showCancel;
