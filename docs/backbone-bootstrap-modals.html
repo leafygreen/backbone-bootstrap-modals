@@ -94,7 +94,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">var</span> html = <span class="hljs-string">''</span>;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.showClose) {
-      html += <span class="hljs-string">'&lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;x&lt;/button&gt;'</span>;
+      html += <span class="hljs-string">'&lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&amp;times;&lt;/button&gt;'</span>;
     }
     html += <span class="hljs-string">'&lt;h4 id="'</span>+<span class="hljs-keyword">this</span>.labelId+<span class="hljs-string">'" class="modal-title"&gt;'</span>+<span class="hljs-keyword">this</span>.label+<span class="hljs-string">'&lt;/h4&gt;'</span>;
     <span class="hljs-keyword">this</span>.$el.html(html);
@@ -337,9 +337,8 @@ All subviews should respect Bootstrap markup guidelines.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.headerViewInstance = <span class="hljs-keyword">this</span>.buildSubview(
-      <span class="hljs-string">'headerView'</span>,
-      <span class="hljs-string">'headerViewOptions'</span>,
-      options);</pre></div></div>
+      <span class="hljs-keyword">this</span>.getHeaderView(options),
+      <span class="hljs-keyword">this</span>.getSubviewOptions(<span class="hljs-string">'headerViewOptions'</span>, options));</pre></div></div>
             
         </li>
         
@@ -355,9 +354,8 @@ All subviews should respect Bootstrap markup guidelines.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.bodyViewInstance = <span class="hljs-keyword">this</span>.buildSubview(
-      <span class="hljs-string">'bodyView'</span>,
-      <span class="hljs-string">'bodyViewOptions'</span>,
-      options);</pre></div></div>
+      <span class="hljs-keyword">this</span>.getBodyView(options),
+      <span class="hljs-keyword">this</span>.getSubviewOptions(<span class="hljs-string">'bodyViewOptions'</span>, options));</pre></div></div>
             
         </li>
         
@@ -373,9 +371,20 @@ All subviews should respect Bootstrap markup guidelines.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.footerViewInstance = <span class="hljs-keyword">this</span>.buildSubview(
-      <span class="hljs-string">'footerView'</span>,
-      <span class="hljs-string">'footerViewOptions'</span>,
-      options);
+      <span class="hljs-keyword">this</span>.getFooterView(options),
+      <span class="hljs-keyword">this</span>.getSubviewOptions(<span class="hljs-string">'footerViewOptions'</span>, options));
+  },
+
+  getHeaderView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(options)</span> {</span>
+    <span class="hljs-keyword">return</span> (options.headerView) ? options.headerView : <span class="hljs-keyword">this</span>.headerView;
+  },
+
+  getBodyView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(options)</span> {</span>
+    <span class="hljs-keyword">return</span> (options.bodyView) ? options.bodyView : <span class="hljs-keyword">this</span>.bodyView;
+  },
+
+  getFooterView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(options)</span> {</span>
+    <span class="hljs-keyword">return</span> (options.footerView) ? options.footerView : <span class="hljs-keyword">this</span>.footerView;
   },</pre></div></div>
             
         </li>
@@ -387,13 +396,17 @@ All subviews should respect Bootstrap markup guidelines.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>Default to using viewKey and viewOptionsKey already present on the view.
-Otherwise, check to see if values were passed through options.</p>
+              <p>Find the subview options specified on the view, unless overridden through options</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  buildSubview: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(viewKey, viewOptionsKey, options)</span> {</span>
-    <span class="hljs-keyword">var</span> viewOptions = _.result(<span class="hljs-keyword">this</span>, viewOptionsKey);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  getSubviewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(viewOptionsKey, options)</span> {</span>
+    <span class="hljs-keyword">var</span> viewOptions = _.result(<span class="hljs-keyword">this</span>, viewOptionsKey);
+    <span class="hljs-keyword">if</span> (options[viewOptionsKey]) {
+      viewOptions = _.result(options, viewOptionsKey);
+    }
+    <span class="hljs-keyword">return</span> viewOptions;
+  },</pre></div></div>
             
         </li>
         
@@ -404,13 +417,22 @@ Otherwise, check to see if values were passed through options.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
-              <p>Override any defined viewOptions with the one in options if present</p>
+              <p>Construct the view with specified options and
+additionally the modal’s model/collection attributes</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (options[viewOptionsKey]) {
-      viewOptions = _.result(options, viewOptionsKey);
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  buildSubview: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(viewClass, viewOptions)</span> {</span>
+    <span class="hljs-keyword">if</span> (!viewClass) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"view not specified"</span>);
+    }
+    
+    <span class="hljs-keyword">var</span> options = _.extend({
+      model: <span class="hljs-keyword">this</span>.model,
+      collection: <span class="hljs-keyword">this</span>.collection
+    }, viewOptions);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> viewClass(options);
+  },</pre></div></div>
             
         </li>
         
@@ -420,61 +442,6 @@ Otherwise, check to see if values were passed through options.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
-              </div>
-              <p>Override any defined view with the one in options if present</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (options[viewKey]) {
-      <span class="hljs-keyword">this</span>[viewKey] = options[viewKey];
-    }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-21">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
-              </div>
-              <p>Validate the view is present</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>[viewKey]) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(viewKey+<span class="hljs-string">" must be specified"</span>);
-    }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-22">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
-              </div>
-              <p>Call the specified view constructor with the specified options, and
-additionally the modal’s model/collection attributes</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    viewOptions = _.extend({
-      model: <span class="hljs-keyword">this</span>.model,
-      collection: <span class="hljs-keyword">this</span>.collection
-    }, viewOptions);
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">this</span>[viewKey](viewOptions);
-  },</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-23">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Override default implementation to always include bootstrapModalEvents</p>
 
@@ -493,11 +460,11 @@ additionally the modal’s model/collection attributes</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Helper method for use in overridden delegateEvents call.
 This can be overridden in extended classes if you want similiar
@@ -552,11 +519,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-25">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Attempt to use Marionette’s close first, falling back to Backbone’s remove</p>
 
@@ -581,11 +548,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-26">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>This event fires immediately when the show instance method is called.</p>
 
@@ -597,11 +564,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-27">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). </p>
 
@@ -614,11 +581,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-28">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>This event is fired immediately when the hide instance method has been called.</p>
 
@@ -630,11 +597,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-29">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).</p>
 
@@ -650,11 +617,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-30">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <h2 id="confirmationmodal">ConfirmationModal</h2>
 
@@ -663,11 +630,11 @@ behavior of not clobbering the default events hash — See ConfirmationModal.con
         </li>
         
         
-        <li id="section-31">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>A simple modal for simple confirmation dialogs</p>
 
@@ -683,42 +650,64 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
         </li>
         
         
-        <li id="section-32">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>Default set of BaseModal options for use as ConfirmationModal</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  defaultOptions: {
-    headerViewOptions: {
-        label: <span class="hljs-literal">undefined</span>,
-        labelId: <span class="hljs-string">'myModalLabel'</span>,
-        showClose: <span class="hljs-literal">true</span>,
-      },
-      bodyViewOptions: {
-        text: <span class="hljs-literal">undefined</span>
-      },
-      footerViewOptions: {
-        buttons: [
-          { id: <span class="hljs-string">'confirmation-cancel-btn'</span>, className: <span class="hljs-string">'btn btn-default'</span>, value: <span class="hljs-string">'Cancel'</span>, attributes: { <span class="hljs-string">'data-dismiss'</span>: <span class="hljs-string">'modal'</span>, <span class="hljs-string">'aria-hidden'</span>: <span class="hljs-string">'true'</span> }},
-          { id: <span class="hljs-string">'confirmation-confirm-btn'</span>,className: <span class="hljs-string">'btn btn-primary'</span>, value: <span class="hljs-string">'Confirm'</span> }
-        ]
-      }
+            <div class="content"><div class='highlight'><pre>  headerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      label: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'label'</span>),
+      labelId: <span class="hljs-string">'myModalLabel'</span>,
+      showClose: <span class="hljs-literal">true</span>,
+    };
+  },
+  bodyViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      text: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'text'</span>)
+    };
+  },
+  footerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> buttons = [];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.showCancel || <span class="hljs-literal">true</span>) {
+      buttons.push({
+        id: <span class="hljs-string">'confirmation-cancel-btn'</span>,
+        className: <span class="hljs-string">'btn btn-default'</span>,
+        value: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'cancelText'</span>) || <span class="hljs-string">'Cancel'</span>,
+        attributes: { <span class="hljs-string">'data-dismiss'</span>: <span class="hljs-string">'modal'</span>, <span class="hljs-string">'aria-hidden'</span>: <span class="hljs-string">'true'</span> }
+      });
+    }
+    buttons.push({
+      id: <span class="hljs-string">'confirmation-confirm-btn'</span>,
+      className: <span class="hljs-string">'btn btn-primary'</span>,
+      value: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'confirmText'</span>) || <span class="hljs-string">'Confirm'</span>
+    });
+    <span class="hljs-keyword">return</span> {
+      buttons: buttons
+    };
   },
 
   initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(opts)</span> {</span>
-    <span class="hljs-keyword">var</span> options = _.extend({}, <span class="hljs-keyword">this</span>.defaultOptions, opts),
-        label = options.label || <span class="hljs-keyword">this</span>.label,
-        text = options.text || <span class="hljs-keyword">this</span>.text;
-    <span class="hljs-keyword">if</span> (options.headerViewOptions &amp;&amp; label) {
-        options.headerViewOptions.label = label;
+    <span class="hljs-keyword">var</span> options = opts || {};
+    <span class="hljs-keyword">if</span> (options.label) {
+      <span class="hljs-keyword">this</span>.label = options.label;
     }
-    <span class="hljs-keyword">if</span> (options.bodyViewOptions &amp;&amp; options.text) {
-        options.bodyViewOptions.text = text;
+    <span class="hljs-keyword">if</span> (options.text) {
+      <span class="hljs-keyword">this</span>.text = options.text;
+    }
+    <span class="hljs-keyword">if</span> (options.confirmText) {
+      <span class="hljs-keyword">this</span>.confirmText = options.confirmText;
+    }
+    <span class="hljs-keyword">if</span> (options.cancelText) {
+      <span class="hljs-keyword">this</span>.cancelText = options.cancelText;
+    }
+    <span class="hljs-keyword">if</span> (options.hideCancel) {
+      <span class="hljs-keyword">this</span>.showCancel = options.showCancel;
     }
     <span class="hljs-keyword">if</span> (options.onConfirm) {
       <span class="hljs-keyword">this</span>.onConfirm = options.onConfirm;
@@ -729,11 +718,11 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
         </li>
         
         
-        <li id="section-33">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>Override BaseModal hook to add additional default delegated events</p>
 
@@ -751,11 +740,11 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
         </li>
         
         
-        <li id="section-34">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>Execute the specified callback if it exists, then hide the modal.
 The modal will not be hidden if the callback returns false.</p>
@@ -763,7 +752,7 @@ The modal will not be hidden if the callback returns false.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.onConfirm) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.onConfirm.call(<span class="hljs-keyword">this</span>) !== <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.onConfirm.call(<span class="hljs-keyword">this</span>, e) !== <span class="hljs-literal">false</span>) {
             <span class="hljs-keyword">this</span>.hide();
         }
     } <span class="hljs-keyword">else</span> {
@@ -775,11 +764,11 @@ The modal will not be hidden if the callback returns false.</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <h2 id="wizardmodal">WizardModal</h2>
 
@@ -788,11 +777,11 @@ The modal will not be hidden if the callback returns false.</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>A simple modal for dialogs with multi-step wizard behavior</p>
 
@@ -806,6 +795,29 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     <span class="hljs-string">'click #confirmation-next-btn'</span>: <span class="hljs-string">'onClickNext'</span>
   },
 
+  getBodyView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(options)</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.currentStep.view;
+  },
+
+  headerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      label: <span class="hljs-keyword">this</span>.currentStep.label,
+      labelId: <span class="hljs-string">'myModalLabel'</span>,
+      showClose: <span class="hljs-literal">true</span>
+    };
+  },
+
+  bodyViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.currentStep.viewOptions;
+  },
+
+  footerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> buttons = <span class="hljs-keyword">this</span>.getButtonsForCurrentStep();
+    <span class="hljs-keyword">return</span> {
+      buttons: buttons
+    };
+  },
+
   initialize: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(opts)</span> {</span>
     <span class="hljs-keyword">this</span>.initializeSteps(opts);
     <span class="hljs-keyword">this</span>.setCurrentStep(<span class="hljs-number">0</span>); <span class="hljs-comment">// always start with the first element</span></pre></div></div>
@@ -813,17 +825,17 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-37">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Create a custom set of options to pass to BaseModal</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">this</span>.getOptionsForCurrentStep();
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> options = {};
     options.modalOptions = opts.modalOptions;
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(<span class="hljs-keyword">this</span>, options);
   },
@@ -833,11 +845,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-38">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>Override any defined stepGraph with the one in options if present</p>
 
@@ -850,11 +862,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-39">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>Validate the steps structure</p>
 
@@ -867,36 +879,6 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   setCurrentStep: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(index)</span> {</span>
     <span class="hljs-keyword">this</span>.currentStep = <span class="hljs-keyword">this</span>.stepGraph[index];
-  },</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-40">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-40">&#182;</a>
-              </div>
-              <p>Return BaseModal options for the current step</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  getOptionsForCurrentStep: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> step = <span class="hljs-keyword">this</span>.currentStep,
-        buttons = <span class="hljs-keyword">this</span>.getButtonsForCurrentStep();
-    <span class="hljs-keyword">return</span> {
-      headerViewOptions: {
-        label: step.label,
-        labelId: <span class="hljs-string">'myModalLabel'</span>,
-        showClose: <span class="hljs-literal">true</span>,
-      },
-      bodyView: step.view,
-      bodyViewOptions: step.viewOptions,
-      footerViewOptions: {
-        buttons: buttons
-      }
-    };
   },
 
   getButtonsForCurrentStep: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -915,11 +897,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-41">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>Override BaseModal hook to add additional default delegated events</p>
 
@@ -933,18 +915,18 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-42">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <p>Remove previous subviews and initialize subviews for the new step</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>  renderSubviews: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> options = <span class="hljs-keyword">this</span>.getOptionsForCurrentStep();
+    <span class="hljs-keyword">var</span> options = {};
     BackboneBootstrapModals.BaseModal.prototype.removeSubviews.call(<span class="hljs-keyword">this</span>);
     BackboneBootstrapModals.BaseModal.prototype.initializeSubviews.call(<span class="hljs-keyword">this</span>, options);
     <span class="hljs-keyword">this</span>.render();
@@ -965,11 +947,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-43">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>If no more steps, hide the dialog</p>
 
@@ -992,11 +974,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-44">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-44">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               <p>Execute the specified callback if it exists, then proceed.
 The modal will not proceed if the callback returns false.</p>
@@ -1004,7 +986,7 @@ The modal will not proceed if the callback returns false.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.currentStep.onNext) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.currentStep.onNext.call(<span class="hljs-keyword">this</span>) === <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.currentStep.onNext.call(<span class="hljs-keyword">this</span>, e) === <span class="hljs-literal">false</span>) {
             <span class="hljs-keyword">return</span>;
         }
     }
