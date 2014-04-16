@@ -33,6 +33,8 @@
       });
     });
 
+
+
     describe('with basic options', function() {
       var modal;
 
@@ -305,7 +307,7 @@
     });
 
     describe('when view options are functions', function() {
-      var modal;
+      var modal, onRenderCalled, onCloseCalled;
 
       beforeEach(function() {
         var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
@@ -326,13 +328,17 @@
                 { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Function' }
               ]
             };
-          }
+          },
+          onRender: function() { onRenderCalled = true; },
+          onClose: function() { onCloseCalled = true; },
         });
         modal = new ExtendedModal({
           modalOptions: {
             show: false
           }
         });
+        onRenderCalled = false;
+        onCloseCalled = false;
       });
 
       it('should render expected markup', function() {
@@ -353,6 +359,16 @@
                          '</div>'+
                        '</div>'+
                      '</div>');
+      });
+
+      it('should call onRender after render', function() {
+        modal.render();
+        assert.equal(onRenderCalled, true);
+      });
+
+      it('should call onClose after remove', function() {
+        modal.remove();
+        assert.equal(onCloseCalled, true);
       });
     });
 

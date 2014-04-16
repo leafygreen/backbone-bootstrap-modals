@@ -5,7 +5,7 @@
 
 BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   className: 'modal-body',
-
+  
   initialize: function (opts) {
     var options = opts || {};
     this.text = options.text;

@@ -17,57 +17,49 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
       showClose: true,
     };
   },
+
   bodyViewOptions: function() {
     return {
       text: _.result(this, 'text')
     };
   },
+
   footerViewOptions: function() {
     var buttons = [];
-    if (this.showCancel || true) {
+    if (_.result(this, 'showCancel') || true) {
       buttons.push({
         id: 'confirmation-cancel-btn',
-        className: 'btn '+ (this.cancelClassName || 'btn-default'),
-        value: _.result(this, 'cancelText') || 'Cancel',
+        className: 'btn '+ (_.result(this, 'cancelClassName') || 'btn-default'),
+        value: (_.result(this, 'cancelText') || 'Cancel'),
         attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }
       });
     }
     buttons.push({
       id: 'confirmation-confirm-btn',
-      className: 'btn '+ (this.confirmClassName || 'btn-primary'),
-      value: _.result(this, 'confirmText') || 'Confirm'
+      className: 'btn '+ (_.result(this, 'confirmClassName') || 'btn-primary'),
+      value: (_.result(this, 'confirmText') || 'Confirm')
     });
     return {
       buttons: buttons
     };
   },
 
+  // properties to copy from options
+  confirmationProperties: [
+    'label',
+    'text',
+    'confirmText',
+    'confirmClassName',
+    'bodyViewOptions',
+    'cancelText',
+    'cancelClassName',
+    'showCancel',
+    'onConfirm'
+  ],
+
   initialize: function(opts) {
     var options = opts || {};
-    if (options.label) {
-      this.label = options.label;
-    }
-    if (options.text) {
-      this.text = options.text;
-    }
-    if (options.confirmText) {
-      this.confirmText = options.confirmText;
-    }
-    if (options.confirmClassName) {
-      this.confirmClassName = options.confirmClassName;
-    }
-    if (options.cancelText) {
-      this.cancelText = options.cancelText;
-    }
-    if (options.cancelClassName) {
-      this.cancelClassName = options.cancelClassName;
-    }
-    if (options.hideCancel) {
-      this.showCancel = options.showCancel;
-    }
-    if (options.onConfirm) {
-      this.onConfirm = options.onConfirm;
-    }
+    _.extend(this, _.pick(options, this.confirmationProperties));
   },
 
   // Override BaseModal hook to add additional default delegated events

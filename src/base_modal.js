@@ -49,6 +49,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   render: function() {
+    // Remove any existing views before appending subviews to the layout
     this.removeSubviews();
     this.initializeSubviews();
 
@@ -73,6 +74,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
       $modalContent.append(this.footerViewInstance.render().$el);
     }
 
+    // Allow onRender callback for custom hooks
     if (this.onRender) { this.onRender.call(this); }
 
     if (!this.shown && this.modalOptions.show !== false) {
@@ -83,22 +85,24 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   // Initialize views for header, body, and footer sections.
-  // All subviews should respect Bootstrap markup guidelines.
   initializeSubviews: function() {
-    // Initialize headerView
     this.headerViewInstance = this.buildSubview(
       this.getHeaderView(),
-      _.result(this, 'headerViewOptions'));
-    // Initialize bodyView
+      _.result(this, 'headerViewOptions'),
+      'modal-header');
+    
     this.bodyViewInstance = this.buildSubview(
       this.getBodyView(),
-      _.result(this, 'bodyViewOptions'));
-    // Initialize footerView
+      _.result(this, 'bodyViewOptions'),
+      'modal-body');
+    
     this.footerViewInstance = this.buildSubview(
       this.getFooterView(),
-      _.result(this, 'footerViewOptions'));
+      _.result(this, 'footerViewOptions'),
+      'modal-footer');
   },
 
+  // Accessors that can be overridden to allow dynamic subview definitions
   getHeaderView: function() {
     return this.headerView;
   },
@@ -111,16 +115,17 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     return this.footerView;
   },
 
-  // Construct the view with specified options and
-  // additionally the modal's model/collection attributes
-  buildSubview: function(viewConstructor, viewOptions) {
+  // Construct view instance with specified options and
+  // additionally propagate model/collection/className attributes
+  buildSubview: function(viewConstructor, viewOptions, className) {
     if (!viewConstructor) {
       throw new Error("view not specified");
     }
     
     var options = _.extend({
       model: this.model,
-      collection: this.collection
+      collection: this.collection,
+      className: className
     }, viewOptions);
     return new viewConstructor(options);
   },
@@ -128,7 +133,10 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   remove: function () {
     this.removeSubviews();
     Backbone.View.prototype.remove.apply(this, arguments);
+
+    // Allow onClose callback for custom hooks
     if (this.onClose) { this.onClose.call(this); }
+
     return this;
   },
 
@@ -148,6 +156,7 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   // Override default implementation to always include bootstrapModalEvents
+  // without clobbering the default events hash
   delegateEvents: function(events) {
     var combinedEvents = events || _.result(this, 'events') || {};
 
@@ -159,8 +168,8 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   },
 
   // Helper method for use in overridden delegateEvents call.
-  // This can be overridden in extended classes if you want similiar
-  // behavior of not clobbering the default events hash -- See ConfirmationModal.confirmationEvents
+  // This can be overridden in extended classes to provide additional
+  // events, e.g. ConfirmationModal.confirmationEvents
   getAdditionalEventsToDelegate: function() {
     return [this.bootstrapModalEvents];
   },
