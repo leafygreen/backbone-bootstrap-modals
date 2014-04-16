@@ -30,86 +30,28 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     keyboard: true
   },
 
-  initialize: function (opts) {
+  // properties to copy from options
+  modalProperties: [
+    'modalOptions',
+    'headerView',
+    'headerViewOptions',
+    'bodyView',
+    'bodyViewOptions',
+    'footerView',
+    'footerViewOptions'
+  ],
+
+  constructor: function(opts) {
     var options = opts || {};
     this.shown = false;
-    if (options.modalOptions) {
-      this.modalOptions = options.modalOptions;
-    }
-    this.initializeSubviews(options);
-  },
-
-  // Initialize views for header, body, and footer sections.
-  // All subviews should respect Bootstrap markup guidelines.
-  initializeSubviews: function(options) {
-    // Initialize headerView
-    this.headerViewInstance = this.buildSubview(
-      this.getHeaderView(options),
-      this.getSubviewOptions('headerViewOptions', options));
-    // Initialize bodyView
-    this.bodyViewInstance = this.buildSubview(
-      this.getBodyView(options),
-      this.getSubviewOptions('bodyViewOptions', options));
-    // Initialize footerView
-    this.footerViewInstance = this.buildSubview(
-      this.getFooterView(options),
-      this.getSubviewOptions('footerViewOptions', options));
-  },
-
-  getHeaderView: function(options) {
-    return (options.headerView) ? options.headerView : this.headerView;
-  },
-
-  getBodyView: function(options) {
-    return (options.bodyView) ? options.bodyView : this.bodyView;
-  },
-
-  getFooterView: function(options) {
-    return (options.footerView) ? options.footerView : this.footerView;
-  },
-
-  // Find the subview options specified on the view, unless overridden through options
-  getSubviewOptions: function(viewOptionsKey, options) {
-    var viewOptions = _.result(this, viewOptionsKey);
-    if (options[viewOptionsKey]) {
-      viewOptions = _.result(options, viewOptionsKey);
-    }
-    return viewOptions;
-  },
-
-  // Construct the view with specified options and
-  // additionally the modal's model/collection attributes
-  buildSubview: function(viewClass, viewOptions) {
-    if (!viewClass) {
-      throw new Error("view not specified");
-    }
-    
-    var options = _.extend({
-      model: this.model,
-      collection: this.collection
-    }, viewOptions);
-    return new viewClass(options);
-  },
-
-  // Override default implementation to always include bootstrapModalEvents
-  delegateEvents: function(events) {
-    var combinedEvents = events || _.result(this, 'events') || {};
-
-    _.each(this.getAdditionalEventsToDelegate(), function(eventHash) {
-      _.extend(combinedEvents, eventHash);
-    });
-
-    Backbone.View.prototype.delegateEvents.call(this, combinedEvents);
-  },
-
-  // Helper method for use in overridden delegateEvents call.
-  // This can be overridden in extended classes if you want similiar
-  // behavior of not clobbering the default events hash -- See ConfirmationModal.confirmationEvents
-  getAdditionalEventsToDelegate: function() {
-    return [this.bootstrapModalEvents];
+    _.extend(this, _.pick(options, this.modalProperties));
+    Backbone.View.prototype.constructor.apply(this, arguments);
   },
 
   render: function() {
+    this.removeSubviews();
+    this.initializeSubviews();
+
     this.$el.html([
       '<div class="modal-dialog">',
       '<div class="modal-content">',
@@ -131,6 +73,8 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
       $modalContent.append(this.footerViewInstance.render().$el);
     }
 
+    if (this.onRender) { this.onRender.call(this); }
+
     if (!this.shown && this.modalOptions.show !== false) {
         this.$el.modal(this.modalOptions);
     }
@@ -138,15 +82,60 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     return this;
   },
 
+  // Initialize views for header, body, and footer sections.
+  // All subviews should respect Bootstrap markup guidelines.
+  initializeSubviews: function() {
+    // Initialize headerView
+    this.headerViewInstance = this.buildSubview(
+      this.getHeaderView(),
+      _.result(this, 'headerViewOptions'));
+    // Initialize bodyView
+    this.bodyViewInstance = this.buildSubview(
+      this.getBodyView(),
+      _.result(this, 'bodyViewOptions'));
+    // Initialize footerView
+    this.footerViewInstance = this.buildSubview(
+      this.getFooterView(),
+      _.result(this, 'footerViewOptions'));
+  },
+
+  getHeaderView: function() {
+    return this.headerView;
+  },
+
+  getBodyView: function() {
+    return this.bodyView;
+  },
+
+  getFooterView: function() {
+    return this.footerView;
+  },
+
+  // Construct the view with specified options and
+  // additionally the modal's model/collection attributes
+  buildSubview: function(viewConstructor, viewOptions) {
+    if (!viewConstructor) {
+      throw new Error("view not specified");
+    }
+    
+    var options = _.extend({
+      model: this.model,
+      collection: this.collection
+    }, viewOptions);
+    return new viewConstructor(options);
+  },
+
   remove: function () {
     this.removeSubviews();
-    return Backbone.View.prototype.remove.apply(this, arguments);
+    Backbone.View.prototype.remove.apply(this, arguments);
+    if (this.onClose) { this.onClose.call(this); }
+    return this;
   },
 
   removeSubviews: function() {
-    if (this.headerView) { this.removeSubview(this.headerViewInstance); }
-    if (this.bodyView) { this.removeSubview(this.bodyViewInstance);  }
-    if (this.footerView) { this.removeSubview(this.footerViewInstance);  }
+    if (this.headerViewInstance) { this.removeSubview(this.headerViewInstance); }
+    if (this.bodyViewInstance) { this.removeSubview(this.bodyViewInstance);  }
+    if (this.footerViewInstance) { this.removeSubview(this.footerViewInstance);  }
   },
 
   // Attempt to use Marionette's close first, falling back to Backbone's remove
@@ -156,6 +145,24 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     } else if (viewInstance.remove) {
         viewInstance.remove.apply(viewInstance);
     }
+  },
+
+  // Override default implementation to always include bootstrapModalEvents
+  delegateEvents: function(events) {
+    var combinedEvents = events || _.result(this, 'events') || {};
+
+    _.each(this.getAdditionalEventsToDelegate(), function(eventHash) {
+      _.extend(combinedEvents, eventHash);
+    });
+
+    Backbone.View.prototype.delegateEvents.call(this, combinedEvents);
+  },
+
+  // Helper method for use in overridden delegateEvents call.
+  // This can be overridden in extended classes if you want similiar
+  // behavior of not clobbering the default events hash -- See ConfirmationModal.confirmationEvents
+  getAdditionalEventsToDelegate: function() {
+    return [this.bootstrapModalEvents];
   },
 
   show: function() {
@@ -168,21 +175,25 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   // This event fires immediately when the show instance method is called.
   onShowBsModal: function() {
+    if (this.onShow) { this.onShow.call(this); }
   },
 
   // This event is fired when the modal has been made visible to the user (will wait for CSS transitions to complete). 
-  onShownBsModal: function(e) {
+  onShownBsModal: function() {
       this.shown = true;
+      if (this.onShown) { this.onShown.call(this); }
   },
 
   // This event is fired immediately when the hide instance method has been called.
   onHideBsModal: function() {
+    if (this.onHide) { this.onHide.call(this); }
   },
 
   // This event is fired when the modal has finished being hidden from the user (will wait for CSS transitions to complete).
-  onHiddenBsModal: function(e) {
+  onHiddenBsModal: function() {
     this.shown = false;
     this.remove();
+    if (this.onHidden) { this.onHidden.call(this); }
   },
 
 });

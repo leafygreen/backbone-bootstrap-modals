@@ -68,7 +68,6 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     if (options.onConfirm) {
       this.onConfirm = options.onConfirm;
     }
-    BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
   // Override BaseModal hook to add additional default delegated events

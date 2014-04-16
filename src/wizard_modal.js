@@ -36,11 +36,6 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   initialize: function(opts) {
     this.initializeSteps(opts);
     this.setCurrentStep(0); // always start with the first element
-    
-    // Create a custom set of options to pass to BaseModal
-    var options = {};
-    options.modalOptions = opts.modalOptions;
-    BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
 
   initializeSteps: function(opts) {
@@ -77,24 +72,16 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     return eventHashes.concat(this.wizardEvents);
   },
 
-  // Remove previous subviews and initialize subviews for the new step
-  renderSubviews: function() {
-    var options = {};
-    BackboneBootstrapModals.BaseModal.prototype.removeSubviews.call(this);
-    BackboneBootstrapModals.BaseModal.prototype.initializeSubviews.call(this, options);
-    this.render();
-  },
-
   renderPreviousStep: function() {
     this.setCurrentStep(this.currentStep.previousIndex);
-    this.renderSubviews();
+    this.render();
   },
 
   renderNextStep: function() {
     var nextStepIndex = this.currentStep.nextIndex;
     if (nextStepIndex !== undefined) {
       this.setCurrentStep(nextStepIndex);
-      this.renderSubviews();
+      this.render();
     } else {
       // If no more steps, hide the dialog
       this.hide();
