@@ -16,7 +16,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
   render: function() {
     var html = '';
     if (this.showClose) {
-      html += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>';
+      html += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
     }
     html += '<h4 id="'+this.labelId+'" class="modal-title">'+this.label+'</h4>';
     this.$el.html(html);

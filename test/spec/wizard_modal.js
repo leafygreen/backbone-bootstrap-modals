@@ -58,7 +58,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Wizard: Step One</h4>'+
                            '</div>'+
                            '<div class="modal-body">'+
@@ -83,7 +83,7 @@
                          '<div class="modal-dialog">'+
                            '<div class="modal-content">'+
                              '<div class="modal-header">'+
-                               '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                               '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                                '<h4 id="myModalLabel" class="modal-title">Wizard: Step Two</h4>'+
                              '</div>'+
                              '<div class="modal-body">'+
@@ -115,7 +115,7 @@
                            '<div class="modal-dialog">'+
                              '<div class="modal-content">'+
                                '<div class="modal-header">'+
-                                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                                  '<h4 id="myModalLabel" class="modal-title">Wizard: Step Three</h4>'+
                                '</div>'+
                                '<div class="modal-body">'+
@@ -170,7 +170,7 @@
                            '<div class="modal-dialog">'+
                              '<div class="modal-content">'+
                                '<div class="modal-header">'+
-                                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                                  '<h4 id="myModalLabel" class="modal-title">Wizard: Step One</h4>'+
                                '</div>'+
                                '<div class="modal-body">'+

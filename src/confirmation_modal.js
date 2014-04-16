@@ -10,32 +10,54 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   },
 
   // Default set of BaseModal options for use as ConfirmationModal
-  defaultOptions: {
-    headerViewOptions: {
-        label: undefined,
-        labelId: 'myModalLabel',
-        showClose: true,
-      },
-      bodyViewOptions: {
-        text: undefined
-      },
-      footerViewOptions: {
-        buttons: [
-          { id: 'confirmation-cancel-btn', className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
-          { id: 'confirmation-confirm-btn',className: 'btn btn-primary', value: 'Confirm' }
-        ]
-      }
+  headerViewOptions: function() {
+    return {
+      label: _.result(this, 'label'),
+      labelId: 'myModalLabel',
+      showClose: true,
+    };
+  },
+  bodyViewOptions: function() {
+    return {
+      text: _.result(this, 'text')
+    };
+  },
+  footerViewOptions: function() {
+    var buttons = [];
+    if (this.showCancel || true) {
+      buttons.push({
+        id: 'confirmation-cancel-btn',
+        className: 'btn btn-default',
+        value: _.result(this, 'cancelText') || 'Cancel',
+        attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }
+      });
+    }
+    buttons.push({
+      id: 'confirmation-confirm-btn',
+      className: 'btn btn-primary',
+      value: _.result(this, 'confirmText') || 'Confirm'
+    });
+    return {
+      buttons: buttons
+    };
   },
 
   initialize: function(opts) {
-    var options = _.extend({}, this.defaultOptions, opts),
-        label = options.label || this.label,
-        text = options.text || this.text;
-    if (options.headerViewOptions && label) {
-        options.headerViewOptions.label = label;
+    var options = opts || {};
+    if (options.label) {
+      this.label = options.label;
     }
-    if (options.bodyViewOptions && options.text) {
-        options.bodyViewOptions.text = text;
+    if (options.text) {
+      this.text = options.text;
+    }
+    if (options.confirmText) {
+      this.confirmText = options.confirmText;
+    }
+    if (options.cancelText) {
+      this.cancelText = options.cancelText;
+    }
+    if (options.hideCancel) {
+      this.showCancel = options.showCancel;
     }
     if (options.onConfirm) {
       this.onConfirm = options.onConfirm;
@@ -56,7 +78,7 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     // Execute the specified callback if it exists, then hide the modal.
     // The modal will not be hidden if the callback returns false.
     if (this.onConfirm) {
-        if (this.onConfirm.call(this) !== false) {
+        if (this.onConfirm.call(this, e) !== false) {
             this.hide();
         }
     } else {

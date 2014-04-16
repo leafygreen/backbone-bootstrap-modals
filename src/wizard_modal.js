@@ -10,12 +10,35 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     'click #confirmation-next-btn': 'onClickNext'
   },
 
+  getBodyView: function(options) {
+    return this.currentStep.view;
+  },
+
+  headerViewOptions: function() {
+    return {
+      label: this.currentStep.label,
+      labelId: 'myModalLabel',
+      showClose: true
+    };
+  },
+
+  bodyViewOptions: function() {
+    return this.currentStep.viewOptions;
+  },
+
+  footerViewOptions: function() {
+    var buttons = this.getButtonsForCurrentStep();
+    return {
+      buttons: buttons
+    };
+  },
+
   initialize: function(opts) {
     this.initializeSteps(opts);
     this.setCurrentStep(0); // always start with the first element
     
     // Create a custom set of options to pass to BaseModal
-    var options = this.getOptionsForCurrentStep();
+    var options = {};
     options.modalOptions = opts.modalOptions;
     BackboneBootstrapModals.BaseModal.prototype.initialize.call(this, options);
   },
@@ -33,24 +56,6 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   setCurrentStep: function(index) {
     this.currentStep = this.stepGraph[index];
-  },
-
-  // Return BaseModal options for the current step
-  getOptionsForCurrentStep: function() {
-    var step = this.currentStep,
-        buttons = this.getButtonsForCurrentStep();
-    return {
-      headerViewOptions: {
-        label: step.label,
-        labelId: 'myModalLabel',
-        showClose: true,
-      },
-      bodyView: step.view,
-      bodyViewOptions: step.viewOptions,
-      footerViewOptions: {
-        buttons: buttons
-      }
-    };
   },
 
   getButtonsForCurrentStep: function() {
@@ -74,7 +79,7 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   // Remove previous subviews and initialize subviews for the new step
   renderSubviews: function() {
-    var options = this.getOptionsForCurrentStep();
+    var options = {};
     BackboneBootstrapModals.BaseModal.prototype.removeSubviews.call(this);
     BackboneBootstrapModals.BaseModal.prototype.initializeSubviews.call(this, options);
     this.render();
@@ -109,7 +114,7 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     // Execute the specified callback if it exists, then proceed.
     // The modal will not proceed if the callback returns false.
     if (this.currentStep.onNext) {
-        if (this.currentStep.onNext.call(this) === false) {
+        if (this.currentStep.onNext.call(this, e) === false) {
             return;
         }
     }

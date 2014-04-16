@@ -44,44 +44,51 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
   initializeSubviews: function(options) {
     // Initialize headerView
     this.headerViewInstance = this.buildSubview(
-      'headerView',
-      'headerViewOptions',
-      options);
+      this.getHeaderView(options),
+      this.getSubviewOptions('headerViewOptions', options));
     // Initialize bodyView
     this.bodyViewInstance = this.buildSubview(
-      'bodyView',
-      'bodyViewOptions',
-      options);
+      this.getBodyView(options),
+      this.getSubviewOptions('bodyViewOptions', options));
     // Initialize footerView
     this.footerViewInstance = this.buildSubview(
-      'footerView',
-      'footerViewOptions',
-      options);
+      this.getFooterView(options),
+      this.getSubviewOptions('footerViewOptions', options));
   },
 
-  // Default to using viewKey and viewOptionsKey already present on the view.
-  // Otherwise, check to see if values were passed through options.
-  buildSubview: function(viewKey, viewOptionsKey, options) {
+  getHeaderView: function(options) {
+    return (options.headerView) ? options.headerView : this.headerView;
+  },
+
+  getBodyView: function(options) {
+    return (options.bodyView) ? options.bodyView : this.bodyView;
+  },
+
+  getFooterView: function(options) {
+    return (options.footerView) ? options.footerView : this.footerView;
+  },
+
+  // Find the subview options specified on the view, unless overridden through options
+  getSubviewOptions: function(viewOptionsKey, options) {
     var viewOptions = _.result(this, viewOptionsKey);
-    // Override any defined viewOptions with the one in options if present
     if (options[viewOptionsKey]) {
       viewOptions = _.result(options, viewOptionsKey);
     }
-    // Override any defined view with the one in options if present
-    if (options[viewKey]) {
-      this[viewKey] = options[viewKey];
+    return viewOptions;
+  },
+
+  // Construct the view with specified options and
+  // additionally the modal's model/collection attributes
+  buildSubview: function(viewClass, viewOptions) {
+    if (!viewClass) {
+      throw new Error("view not specified");
     }
-    // Validate the view is present
-    if (!this[viewKey]) {
-      throw new Error(viewKey+" must be specified");
-    }
-    // Call the specified view constructor with the specified options, and
-    // additionally the modal's model/collection attributes
-    viewOptions = _.extend({
+    
+    var options = _.extend({
       model: this.model,
       collection: this.collection
     }, viewOptions);
-    return new this[viewKey](viewOptions);
+    return new viewClass(options);
   },
 
   // Override default implementation to always include bootstrapModalEvents

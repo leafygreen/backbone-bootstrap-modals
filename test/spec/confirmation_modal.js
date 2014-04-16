@@ -22,7 +22,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title"></h4>'+
                            '</div>'+
                            '<div class="modal-body"></div>'+
@@ -44,6 +44,8 @@
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Action',
           text: 'Are you sure you want to do that?',
+          cancelText: 'No',
+          confirmText: 'Yes',
           onConfirm: function() {
             confirmCalled = true;
           },
@@ -60,13 +62,13 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Confirm Action</h4>'+
                            '</div>'+
                            '<div class="modal-body"><p>Are you sure you want to do that?</p></div>'+
                            '<div class="modal-footer">'+
-                             '<button id="confirmation-cancel-btn" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>'+
-                             '<button id="confirmation-confirm-btn" class="btn btn-primary">Confirm</button>'+
+                             '<button id="confirmation-cancel-btn" class="btn btn-default" data-dismiss="modal" aria-hidden="true">No</button>'+
+                             '<button id="confirmation-confirm-btn" class="btn btn-primary">Yes</button>'+
                            '</div>'+
                          '</div>'+
                        '</div>'+
@@ -117,7 +119,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Confirm Custom Action</h4>'+
                            '</div>'+
                            '<div class="modal-body"><b>Custom View</b></div>'+
@@ -156,7 +158,7 @@
           }
         });
         var ExtendedModal = BackboneBootstrapModals.ConfirmationModal.extend({
-          label: 'Confirm Custom Action',
+          label: function() { return 'Extended Function Label'; },
           bodyView: CustomView,
           onConfirm: function() {
             confirmCalled = true;
@@ -176,8 +178,8 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
-                             '<h4 id="myModalLabel" class="modal-title">Confirm Custom Action</h4>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
+                             '<h4 id="myModalLabel" class="modal-title">Extended Function Label</h4>'+
                            '</div>'+
                            '<div class="modal-body"><b>Custom View</b></div>'+
                            '<div class="modal-footer">'+

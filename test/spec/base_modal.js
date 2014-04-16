@@ -22,7 +22,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title"></h4>'+
                            '</div>'+
                            '<div class="modal-body"></div>'+
@@ -64,7 +64,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="exampleModalLabel" class="modal-title">Example Dialog</h4>'+
                            '</div>'+
                            '<div class="modal-body"><p>This is an example body.</p></div>'+
@@ -161,6 +161,62 @@
           headerView: HeaderView,
           bodyView: BodyView,
           footerView: FooterView
+        });
+        modal = new ExtendedModal({
+          modalOptions: {
+            show: false
+          }
+        });
+      });
+
+      it('should render default markup', function() {
+        modal.render();
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+                       '<div class="modal-dialog">'+
+                         '<div class="modal-content">'+
+                           '<div class="modal-header">'+
+                             '<h3>Custom Header</h3>'+
+                           '</div>'+
+                           '<div class="modal-body"><u>Custom Body</u></div>'+
+                           '<div class="modal-footer">'+
+                             '<button>Custom Footer</button>'+
+                           '</div>'+
+                         '</div>'+
+                       '</div>'+
+                     '</div>');
+      });
+    });
+
+    describe('when extended with get*View functions', function() {
+      var modal;
+
+      beforeEach(function() {
+        var HeaderView = Backbone.View.extend({
+          className: 'modal-header',
+          render: function() {
+              this.$el.html("<h3>Custom Header</h3>");
+              return this;
+          }
+        });
+        var BodyView = Backbone.View.extend({
+          className: 'modal-body',
+          render: function() {
+              this.$el.html("<u>Custom Body</u>");
+              return this;
+          }
+        });
+        var FooterView = Backbone.View.extend({
+          className: 'modal-footer',
+          render: function() {
+              this.$el.html("<button>Custom Footer</button>");
+              return this;
+          }
+        });
+        var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
+          getHeaderView: function() { return HeaderView; },
+          getBodyView: function() { return BodyView; },
+          getFooterView: function() { return FooterView; }
         });
         modal = new ExtendedModal({
           modalOptions: {
@@ -286,7 +342,7 @@
                        '<div class="modal-dialog">'+
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
-                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Function Dialog</h4>'+
                            '</div>'+
                            '<div class="modal-body"><p>This is a function option.</p></div>'+
