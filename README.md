@@ -11,7 +11,8 @@ when working with Bootstrap modal dialogs.
 ## Advantages
 
 - Simple integration with Bootstrap and Backbone
-- Easily extensible, with the boilerplate taken care of for you
+- Easily extensible with sane defaults
+- All boilerplate taken care of for you
 - Compatible with Marionette Views
 
 ## Download Links
@@ -22,78 +23,54 @@ when working with Bootstrap modal dialogs.
 
 ## Documentation
 
-[Annotated Source Code](http://leafygreen.github.io/backbone-bootstrap-modals/docs/backbone-bootstrap-modals.html)
+The source code is well annotated and run through Docco:
 
-[Live Example](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+[**Annotated Source Code**](http://leafygreen.github.io/backbone-bootstrap-modals/docs/backbone-bootstrap-modals.html)
 
-### BackboneBootstrapModals.BaseModal
+Please click the following link to see the library in action:
 
-A basic example of using the BaseModal when passing in sub views.
+[**Demo**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+
+**Component Documentation**
+
+ * [**BaseModal**](wiki/BaseModal)
+  * [**BaseHeaderView**](wiki/BaseHeaderView)
+  * [**BaseBodyView**](wiki/BaseBodyView)
+  * [**BaseHeaderView**](wiki/BaseHeaderView)
+ * [**ConfirmationModal**](wiki/ConfirmationModal)
+ * [**WizardModal**](wiki/WizardModal)
+
+**Quick Examples**
 
 ```javascript
-var modal = new BackboneBootstrapModals.BaseModal({
+// Extending BaseModal
+var ExtendedModal = BackboneBootstrapModals.BaseModal.extend({
   headerView: BackboneBootstrapModals.BaseHeaderView,
-  headerViewOptons: {
-    label: 'Example Dialog',
-    labelId: 'myModalLabel',
-    showClose: true,
+  headerViewOptions: {
+    label: 'Extended Example'
   },
   bodyView: BackboneBootstrapModals.BaseBodyView,
-  bodyViewOptions: {
-    text: 'This is an example body.'
+  // options may be defined as functions
+  bodyViewOptions: function() {
+    return {
+      text: 'Today is '+new Date()
+    };
   },
-  footerView: BackboneBootstrapModals.BaseFooterView,
+  // subviews may be dynamically defined
+  getFooterView: function() { return BackboneBootstrapModals.BaseFooterView; },
   footerViewOptions: {
     buttons: [
       { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
-      { id: 'full-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
+      { id: 'apply-btn', className: 'btn btn-primary', value: 'Apply' }
     ]
-  },
-  events: {
-    "click #full-modal-apply-btn" : "hide"
-  },
-  modalOptions: {
-    backdrop: true,
-    keyboard: true
   }
 });
+var modal = new ExtendedModal();
 modal.render();
 ```
 
-A basic example of using the BaseModal when using the default sub views.
-
 ```javascript
-var modal = new BackboneBootstrapModals.BaseModal({
-  headerViewOptions: {
-    label: 'Example Dialog',
-    labelId: 'myModalLabel',
-    showClose: true,
-  },
-  bodyViewOptions: {
-    text: 'This is an example body.'
-  },
-  footerViewOptions: {
-    buttons: [
-      { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
-      { id: 'simple-modal-apply-btn', className: 'btn btn-primary', value: 'Apply' }
-    ]
-  },
-  events: {
-    "click #simple-modal-apply-btn" : "hide"
-  },
-  modalOptions: {
-    backdrop: true,
-    keyboard: true
-  }
-});
-modal.render();
-```
-
-### BackboneBootstrapModals.ConfirmationModal
-
-A basic example of the Confirmation functionality.
-
-```javascript
+// Using ConfirmationModal directly (It could also be extended as above.)
 var modal = new BackboneBootstrapModals.ConfirmationModal({
   label: 'Confirm Action',
   text: 'Are you sure you want to do that?',
@@ -104,11 +81,8 @@ var modal = new BackboneBootstrapModals.ConfirmationModal({
 modal.render();
 ```
 
-### BackboneBootstrapModals.WizardModal
-
-A basic example of the Wizard functionality.
-
 ```javascript
+// Using WizardModal directly (It could also be extended as above.)
 var modal = new BackboneBootstrapModals.WizardModal({
   stepGraph: [{
     label: 'Wizard: Step One',
