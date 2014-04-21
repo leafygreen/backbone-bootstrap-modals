@@ -39,6 +39,7 @@
             view: BackboneBootstrapModals.BaseBodyView,
             viewOptions: { text: 'This is step three' },
             nextText: 'Finish',
+            nextClassName: 'btn-danger',
             previousIndex: 1,
             onNext: function() {
               // impl for step three
@@ -123,7 +124,7 @@
                                '</div>'+
                                '<div class="modal-footer">'+
                                  '<button id="confirmation-previous-btn" class="btn btn-default">Previous</button>'+
-                                 '<button id="confirmation-next-btn" class="btn btn-primary">Finish</button>'+
+                                 '<button id="confirmation-next-btn" class="btn btn-danger">Finish</button>'+
                                '</div>'+
                              '</div>'+
                            '</div>'+
