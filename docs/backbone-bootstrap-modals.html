@@ -906,13 +906,15 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
   getButtonsForCurrentStep: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">var</span> previousStepIndex = <span class="hljs-keyword">this</span>.currentStep.previousIndex,
         previousText = <span class="hljs-keyword">this</span>.currentStep.previousText || <span class="hljs-string">'Previous'</span>,
+        previousClassName = <span class="hljs-keyword">this</span>.currentStep.previousClassName || <span class="hljs-string">'btn-default'</span>,
         nextStepIndex = <span class="hljs-keyword">this</span>.currentStep.nextIndex,
         nextText = <span class="hljs-keyword">this</span>.currentStep.nextText || <span class="hljs-string">'Next'</span>,
+        nextClassName = <span class="hljs-keyword">this</span>.currentStep.nextClassName || <span class="hljs-string">'btn-primary'</span>,
         buttons = [];
     <span class="hljs-keyword">if</span> (previousStepIndex !== <span class="hljs-literal">undefined</span>) {
-      buttons.push({ id: <span class="hljs-string">'confirmation-previous-btn'</span>,className: <span class="hljs-string">'btn btn-default'</span>, value: previousText });
+      buttons.push({ id: <span class="hljs-string">'confirmation-previous-btn'</span>, className: <span class="hljs-string">'btn '</span>+previousClassName, value: previousText });
     }
-    buttons.push({ id: <span class="hljs-string">'confirmation-next-btn'</span>,className: <span class="hljs-string">'btn btn-primary'</span>, value: nextText });
+    buttons.push({ id: <span class="hljs-string">'confirmation-next-btn'</span>, className: <span class="hljs-string">'btn '</span>+nextClassName, value: nextText });
     <span class="hljs-keyword">return</span> buttons;
   },</pre></div></div>
             
