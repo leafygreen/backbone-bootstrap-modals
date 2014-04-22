@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     
-    clean: ['dist', 'docs'],
+    clean: ['dist', 'docco'],
     
     jshint: {
       files: {
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
       debug: {
         src: ['lib/backbone-bootstrap-modals.js'],
         options: {
-          output: 'docs/'
+          output: 'docco/'
         }
       }
     },

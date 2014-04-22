@@ -33,12 +33,12 @@ Please click the following link to see the library in action:
 
 **Component Documentation**
 
- * [**BaseModal**](wiki/BaseModal)
-  * [**BaseHeaderView**](wiki/BaseHeaderView)
-  * [**BaseBodyView**](wiki/BaseBodyView)
-  * [**BaseHeaderView**](wiki/BaseHeaderView)
- * [**ConfirmationModal**](wiki/ConfirmationModal)
- * [**WizardModal**](wiki/WizardModal)
+ * [**BaseModal**](docs/BaseModal.md)
+  * [**BaseHeaderView**](docs/BaseHeaderView.md)
+  * [**BaseBodyView**](docs/BaseBodyView.md)
+  * [**BaseHeaderView**](docs/BaseHeaderView.md)
+ * [**ConfirmationModal**](docs/ConfirmationModal.md)
+ * [**WizardModal**](docs/WizardModal.md)
 
 **Quick Examples**
 
