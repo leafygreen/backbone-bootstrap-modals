@@ -25,7 +25,7 @@ when working with Bootstrap modal dialogs.
 
 The source code is well annotated and run through Docco:
 
-[**Annotated Source Code**](http://leafygreen.github.io/backbone-bootstrap-modals/docs/backbone-bootstrap-modals.html)
+[**Annotated Source Code**](http://leafygreen.github.io/backbone-bootstrap-modals/docco/backbone-bootstrap-modals.html)
 
 Please click the following link to see the library in action:
 
