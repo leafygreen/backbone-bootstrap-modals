@@ -16,12 +16,25 @@ module.exports = function(grunt) {
       all: {
         options: {
           banner: '/*!\n  <%= pkg.name %> <%= pkg.version %>\n' +
+            '  <%= pkg.repository.url %>\n\n' +
             '  Licensed under the MIT license.\n' +
             '*/\n\n' +
-            '(function (root) {\n\n' +
-            '"use strict";\n\n',
-          footer: '\nroot.BackboneBootstrapModals = BackboneBootstrapModals;\n\n' +
-            '}(this));'
+            '(function (root, factory) {\n\n' +
+            '  if (typeof define === "function" && define.amd) {\n' +
+            '    // AMD (+ global for extensions)\n' +
+            '    define(["underscore", "backbone"], function (_, Backbone) {\n' +
+            '      return (root.BackboneBootstrapModals = factory(_, Backbone));\n' +
+            '    });\n' +
+            '  } else if (typeof exports === "object") {\n' +
+            '    // CommonJS\n' +
+            '    module.exports = factory(require("underscore"), require("backbone"));\n' +
+            '  } else {\n' +
+            '    // Browser\n' +
+            '    root.BackboneBootstrapModals = factory(root._, root.Backbone);\n' +
+            '  }' +
+            '}(this, function (_, Backbone) {\n\n  "use strict";\n\n',
+          footer: '\n\n  return BackboneBootstrapModals;\n' +
+            '}));'
         },
         src: [
           'src/initializer.js',

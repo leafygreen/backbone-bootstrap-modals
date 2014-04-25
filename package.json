@@ -1,6 +1,10 @@
 {
   "name": "backbone-bootstrap-modals",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/leafygreen/backbone-bootstrap-modals"
+  },
   "devDependencies": {
     "grunt": "~0.4.4",
     "grunt-contrib-clean": "~0.5.0",
