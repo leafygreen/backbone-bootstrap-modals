@@ -5,6 +5,8 @@ consists of three subviews: headerView, bodyView, and footerView, which can be d
 
 Rendering the modal causes each of the subviews to be rendered and appended to the modal view's `el`.
 
+Note that the modal's `el` never has to be explicity added to the document, as Bootstrap's show logic handles this.
+
 ## Documentation Index
 
 * [BaseModal's Subview Properties](#basemodals-subview-properties)
