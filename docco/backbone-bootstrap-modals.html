@@ -748,8 +748,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
             <div class="content"><div class='highlight'><pre>  headerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
       label: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'label'</span>),
-      labelId: <span class="hljs-string">'myModalLabel'</span>,
-      showClose: <span class="hljs-literal">true</span>,
+      labelId: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'labelId'</span>),
+      labelTagName: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'labelTagName'</span>),
+      showClose: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'showClose'</span>)
     };
   },
 
@@ -794,6 +795,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
             
             <div class="content"><div class='highlight'><pre>  confirmationProperties: [
     <span class="hljs-string">'label'</span>,
+    <span class="hljs-string">'labelId'</span>,
+    <span class="hljs-string">'labelTagName'</span>,
+    <span class="hljs-string">'showClose'</span>,
     <span class="hljs-string">'text'</span>,
     <span class="hljs-string">'confirmText'</span>,
     <span class="hljs-string">'confirmClassName'</span>,
@@ -895,9 +899,7 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   headerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      label: <span class="hljs-keyword">this</span>.currentStep.label,
-      labelId: <span class="hljs-string">'myModalLabel'</span>,
-      showClose: <span class="hljs-literal">true</span>
+      label: <span class="hljs-keyword">this</span>.currentStep.label
     };
   },
 
