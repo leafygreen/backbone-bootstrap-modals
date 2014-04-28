@@ -27,11 +27,12 @@ The source code is well annotated and run through Docco:
 
 [**Annotated Source Code**](http://leafygreen.github.io/backbone-bootstrap-modals/docco/backbone-bootstrap-modals.html)
 
-Please click the following link to see the library in action:
+Please click the following links to see the library in action:
 
-[**Demo**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+[**Basic Example**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+[**Validating Footer Example**](http://leafygreen.github.io/backbone-bootstrap-modals/validating-footer-example.html)
 
-Additional examples may be found in [**/examples**](/examples)
+(See [**/examples**](/examples))
 
 **Component Documentation**
 
