@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore.js"></script>
+    <script type="text/javascript" src="http://backbonejs.org/backbone.js"></script>
+    <script type="text/javascript" src="https://rawgithub.com/leafygreen/backbone-bootstrap-modals/master/lib/backbone-bootstrap-modals.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="container-row" class="row" style="margin-top:20px;">
+        <h3><a href="#" id="show_example">Show Example</a></h3>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+      // Implementation of Footer class which manages our simulated Captcha
+      var ValidatingFooter = BackboneBootstrapModals.BaseFooterView.extend({
+
+        validationContent: '<div id="validation-content" class="form-group" style="text-align:left;">'+
+                             '<div class="alert alert-info">Please type CONFIRM into the text input to submit.</div>'+
+                             '<label for="validation-input">Validation Text</label>'+
+                             '<input type="email" class="form-control" id="validation-input" placeholder="Enter text">'+
+                           '</div>',
+
+        validate: function() {
+          var validationContent = this.$el.find('#validation-content');
+          if (validationContent.length == 0) {
+            this.$el.prepend(this.validationContent);
+          }
+        }
+      });
+
+      // Modal class implementation which simulates a Captcha validation before handling the Submit action
+      var ExampleModal = BackboneBootstrapModals.BaseModal.extend({
+        headerViewOptions: {
+          label: 'Simulated Captcha Validation'
+        },
+        bodyViewOptions: {
+          text: 'This demonstrates a more powerful footer implementation.'
+        },
+        footerView: ValidatingFooter,
+        footerViewOptions: {
+          buttons: [
+            { className: 'btn btn-default', value: 'Cancel', attributes: { 'data-dismiss': 'modal', 'aria-hidden': 'true' }},
+            { id: 'submit-btn', className: 'btn btn-primary', value: 'Submit' }
+          ]
+        },
+
+        events: {
+          'click #submit-btn': 'onClickSubmit'
+        },
+
+        onClickSubmit: function(e) {
+          e.preventDefault();
+          e.currentTarget.disabled = true;
+
+          var validationString = this.$el.find('#validation-input').val();
+          if (validationString === "CONFIRM") {
+            $('#container-row').prepend('<div class="alert alert-success">Example submitted.</div>');
+            this.hide();
+          } else {
+            this.footerViewInstance.validate();
+            e.currentTarget.disabled = false;
+          }
+        }
+      });
+
+      $('#show_example').click(function(e) {
+        e.preventDefault();
+
+        var modal = new ExampleModal();
+        modal.render();
+      });
+    </script>
+  </body>
+</html>
+
