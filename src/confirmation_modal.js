@@ -13,8 +13,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   headerViewOptions: function() {
     return {
       label: _.result(this, 'label'),
-      labelId: 'myModalLabel',
-      showClose: true,
+      labelId: _.result(this, 'labelId'),
+      labelTagName: _.result(this, 'labelTagName'),
+      showClose: _.result(this, 'showClose')
     };
   },
 
@@ -47,6 +48,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   // properties to copy from options
   confirmationProperties: [
     'label',
+    'labelId',
+    'labelTagName',
+    'showClose',
     'text',
     'confirmText',
     'confirmClassName',

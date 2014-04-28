@@ -43,6 +43,7 @@
         confirmCalled = false;
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Action',
+          labelTagName: 'h3',
           text: 'Are you sure you want to do that?',
           cancelText: 'No',
           confirmText: 'Yes',
@@ -63,7 +64,7 @@
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
-                             '<h4 id="myModalLabel" class="modal-title">Confirm Action</h4>'+
+                             '<h3 id="myModalLabel" class="modal-title">Confirm Action</h3>'+
                            '</div>'+
                            '<div class="modal-body"><p>Are you sure you want to do that?</p></div>'+
                            '<div class="modal-footer">'+

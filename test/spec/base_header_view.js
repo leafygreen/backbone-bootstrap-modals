@@ -28,6 +28,7 @@
         view = new BackboneBootstrapModals.BaseHeaderView({
           label: 'Hello',
           labelId: 'hello-title',
+          labelTagName: 'h3',
           showClose: false
         });
       });
@@ -36,7 +37,7 @@
         view.render();
         assert.equal(view.el.outerHTML,
                      '<div class="modal-header">'+
-                       '<h4 id="hello-title" class="modal-title">Hello</h4>'+
+                       '<h3 id="hello-title" class="modal-title">Hello</h3>'+
                      '</div>');
       });
     });

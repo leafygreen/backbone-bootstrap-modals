@@ -16,9 +16,7 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   headerViewOptions: function() {
     return {
-      label: this.currentStep.label,
-      labelId: 'myModalLabel',
-      showClose: true
+      label: this.currentStep.label
     };
   },
 
