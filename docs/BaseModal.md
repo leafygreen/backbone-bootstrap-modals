@@ -30,9 +30,9 @@ Note that the modal's `el` never has to be explicity added to the document, as B
 You may specify each subview using the `headerView`, `bodyView`, and `footerView` properties.
 These must be Backbone view object definitions, not an instances.
 
-`headerView` controls the Bootstrap Modal's `modal-header` div. 
-`bodyView` controls the Bootstrap Modal's `modal-body` div. 
-`footerView` controls the Bootstrap Modal's `modal-footer` div. 
+* `headerView` controls the Bootstrap Modal's `modal-header` div. 
+* `bodyView` controls the Bootstrap Modal's `modal-body` div. 
+* `footerView` controls the Bootstrap Modal's `modal-footer` div. 
 
 ### BaseModal's Subview Functions
 
