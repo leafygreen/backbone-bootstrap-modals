@@ -10,6 +10,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
     var options = opts || {};
     this.label = options.label || '';
     this.labelId = options.labelId || 'myModalLabel';
+    this.labelTagName = options.labelTagName || 'h4';
     this.showClose = (options.showClose !== undefined) ? options.showClose : true;
   },
 
@@ -18,7 +19,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
     if (this.showClose) {
       html += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
     }
-    html += '<h4 id="'+this.labelId+'" class="modal-title">'+this.label+'</h4>';
+    html += '<'+this.labelTagName+' id="'+this.labelId+'" class="modal-title">'+this.label+'</'+this.labelTagName+'>';
     this.$el.html(html);
     return this;
   }
