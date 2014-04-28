@@ -31,6 +31,8 @@ Please click the following link to see the library in action:
 
 [**Demo**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
 
+Additional examples may be found in [**/examples**](/examples)
+
 **Component Documentation**
 
  * [**BaseModal**](docs/BaseModal.md)
