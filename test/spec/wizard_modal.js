@@ -193,5 +193,54 @@
       });
 
     });
+
+    describe('when extended', function() {
+
+      var modal;
+
+      beforeEach(function() {
+        var ExtendedModal = BackboneBootstrapModals.WizardModal.extend({
+          headerViewOptions: function() {
+            return {
+              label: this.currentStep.label,
+              labelTagName: 'h3'
+            };
+          }
+        });
+
+        modal = new ExtendedModal({
+          stepGraph: [{
+            label: 'Wizard: Step One',
+            view: BackboneBootstrapModals.BaseBodyView,
+            viewOptions: { text: 'This is step one' },
+            onNext: function() {}
+          }],
+          modalOptions: {
+            show: false
+          }
+        });
+      });
+
+      it('should render expected markup', function() {
+        modal.render();
+        assert.equal(modal.el.outerHTML,
+                     '<div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal">'+
+                       '<div class="modal-dialog">'+
+                         '<div class="modal-content">'+
+                           '<div class="modal-header">'+
+                             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
+                             '<h3 id="myModalLabel" class="modal-title">Wizard: Step One</h3>'+
+                           '</div>'+
+                           '<div class="modal-body">'+
+                             '<p>This is step one</p>'+
+                           '</div>'+
+                           '<div class="modal-footer">'+
+                             '<button id="confirmation-next-btn" class="btn btn-primary">Next</button>'+
+                           '</div>'+
+                         '</div>'+
+                       '</div>'+
+                     '</div>');
+      });
+    });
   });
 })();
