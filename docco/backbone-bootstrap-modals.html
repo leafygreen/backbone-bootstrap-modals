@@ -142,6 +142,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
     <span class="hljs-keyword">var</span> options = opts || {};
     <span class="hljs-keyword">this</span>.label = options.label || <span class="hljs-string">''</span>;
     <span class="hljs-keyword">this</span>.labelId = options.labelId || <span class="hljs-string">'myModalLabel'</span>;
+    <span class="hljs-keyword">this</span>.labelTagName = options.labelTagName || <span class="hljs-string">'h4'</span>;
     <span class="hljs-keyword">this</span>.showClose = (options.showClose !== <span class="hljs-literal">undefined</span>) ? options.showClose : <span class="hljs-literal">true</span>;
   },
 
@@ -150,7 +151,7 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.showClose) {
       html += <span class="hljs-string">'&lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&amp;times;&lt;/button&gt;'</span>;
     }
-    html += <span class="hljs-string">'&lt;h4 id="'</span>+<span class="hljs-keyword">this</span>.labelId+<span class="hljs-string">'" class="modal-title"&gt;'</span>+<span class="hljs-keyword">this</span>.label+<span class="hljs-string">'&lt;/h4&gt;'</span>;
+    html += <span class="hljs-string">'&lt;'</span>+<span class="hljs-keyword">this</span>.labelTagName+<span class="hljs-string">' id="'</span>+<span class="hljs-keyword">this</span>.labelId+<span class="hljs-string">'" class="modal-title"&gt;'</span>+<span class="hljs-keyword">this</span>.label+<span class="hljs-string">'&lt;/'</span>+<span class="hljs-keyword">this</span>.labelTagName+<span class="hljs-string">'&gt;'</span>;
     <span class="hljs-keyword">this</span>.$el.html(html);
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }
