@@ -29,8 +29,8 @@ The source code is well annotated and run through Docco:
 
 Please click the following links to see the library in action:
 
-[**Basic Example**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
-[**Validating Footer Example**](http://leafygreen.github.io/backbone-bootstrap-modals/validating-footer-example.html)
+* [**Basic Example**](http://leafygreen.github.io/backbone-bootstrap-modals/example.html)
+* [**Validating Footer Example**](http://leafygreen.github.io/backbone-bootstrap-modals/validating-footer-example.html)
 
 (See [**/examples**](/examples))
 
