@@ -39,7 +39,7 @@ Please click the following links to see the library in action:
  * [**BaseModal**](docs/BaseModal.md)
   * [**BaseHeaderView**](docs/BaseHeaderView.md)
   * [**BaseBodyView**](docs/BaseBodyView.md)
-  * [**BaseHeaderView**](docs/BaseHeaderView.md)
+  * [**BaseFooterView**](docs/BaseFooterView.md)
  * [**ConfirmationModal**](docs/ConfirmationModal.md)
  * [**WizardModal**](docs/WizardModal.md)
 

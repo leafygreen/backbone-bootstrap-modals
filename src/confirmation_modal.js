@@ -26,8 +26,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   },
 
   footerViewOptions: function() {
-    var buttons = [];
-    if (_.result(this, 'showCancel') || true) {
+    var buttons = [],
+        showCancel = _.result(this, 'showCancel');
+    if (showCancel === undefined || showCancel === true) {
       buttons.push({
         id: 'confirmation-cancel-btn',
         className: 'btn '+ (_.result(this, 'cancelClassName') || 'btn-default'),

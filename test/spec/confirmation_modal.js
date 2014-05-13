@@ -104,6 +104,7 @@
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Custom Action',
           bodyView: CustomView,
+          showCancel: false,
           onConfirm: function() {
             confirmCalled = true;
           },
@@ -125,7 +126,6 @@
                            '</div>'+
                            '<div class="modal-body"><b>Custom View</b></div>'+
                            '<div class="modal-footer">'+
-                             '<button id="confirmation-cancel-btn" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>'+
                              '<button id="confirmation-confirm-btn" class="btn btn-primary">Confirm</button>'+
                            '</div>'+
                          '</div>'+
