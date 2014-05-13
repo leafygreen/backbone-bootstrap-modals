@@ -761,8 +761,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
   },
 
   footerViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> buttons = [];
-    <span class="hljs-keyword">if</span> (_.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'showCancel'</span>) || <span class="hljs-literal">true</span>) {
+    <span class="hljs-keyword">var</span> buttons = [],
+        showCancel = _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'showCancel'</span>);
+    <span class="hljs-keyword">if</span> (showCancel === <span class="hljs-literal">undefined</span> || showCancel === <span class="hljs-literal">true</span>) {
       buttons.push({
         id: <span class="hljs-string">'confirmation-cancel-btn'</span>,
         className: <span class="hljs-string">'btn '</span>+ (_.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'cancelClassName'</span>) || <span class="hljs-string">'btn-default'</span>),
