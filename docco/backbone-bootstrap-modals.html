@@ -194,12 +194,20 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   },
 
   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> html = <span class="hljs-string">""</span>;
+    <span class="hljs-keyword">var</span> html;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.text) {
-      html += <span class="hljs-string">'&lt;p&gt;'</span>+<span class="hljs-keyword">this</span>.text+<span class="hljs-string">'&lt;/p&gt;'</span>;
+      <span class="hljs-keyword">if</span> (_.isArray(<span class="hljs-keyword">this</span>.text)) {
+        html = _.map(<span class="hljs-keyword">this</span>.text, <span class="hljs-keyword">this</span>.createTag);
+      } <span class="hljs-keyword">else</span> {
+        html = <span class="hljs-keyword">this</span>.createTag(<span class="hljs-keyword">this</span>.text);
+      }
+      <span class="hljs-keyword">this</span>.$el.html(html);
     }
-    <span class="hljs-keyword">this</span>.$el.html(html);
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  },
+
+  createTag: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(text)</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'&lt;p&gt;'</span>+text+<span class="hljs-string">'&lt;/p&gt;'</span>;
   }
 
 });</pre></div></div>
