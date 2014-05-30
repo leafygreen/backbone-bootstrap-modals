@@ -33,5 +33,21 @@
                      view.el.outerHTML);
       });
     });
+
+    describe('with text array', function() {
+      var view;
+
+      beforeEach(function() {
+        view = new BackboneBootstrapModals.BaseBodyView({
+          text: ['hello', 'world']
+        });
+      });
+
+      it('should render default markup', function() {
+        view.render();
+        assert.equal('<div class="modal-body"><p>hello</p><p>world</p></div>',
+                     view.el.outerHTML);
+      });
+    });
   });
 })();
