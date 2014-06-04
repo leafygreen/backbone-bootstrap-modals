@@ -147,12 +147,21 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
   },
 
   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> html = <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">var</span> $header = $(<span class="hljs-string">'&lt;'</span>+<span class="hljs-keyword">this</span>.labelTagName+<span class="hljs-string">'&gt;'</span>, {
+      <span class="hljs-string">'id'</span>: <span class="hljs-keyword">this</span>.labelId,
+      <span class="hljs-string">'class'</span>: <span class="hljs-string">'modal-title'</span>
+    }).text(<span class="hljs-keyword">this</span>.label);
+
+    <span class="hljs-keyword">var</span> $close;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.showClose) {
-      html += <span class="hljs-string">'&lt;button type="button" class="close" data-dismiss="modal" aria-hidden="true"&gt;&amp;times;&lt;/button&gt;'</span>;
+      $close = $(<span class="hljs-string">'&lt;button&gt;'</span>, {
+        <span class="hljs-string">'type'</span>: <span class="hljs-string">'button'</span>,
+        <span class="hljs-string">'class'</span>: <span class="hljs-string">'close'</span>,
+        <span class="hljs-string">'data-dismiss'</span>: <span class="hljs-string">'modal'</span>,
+        <span class="hljs-string">'aria-hidden'</span>: <span class="hljs-string">'true'</span>
+      }).html(<span class="hljs-string">'&amp;times;'</span>);
     }
-    html += <span class="hljs-string">'&lt;'</span>+<span class="hljs-keyword">this</span>.labelTagName+<span class="hljs-string">' id="'</span>+<span class="hljs-keyword">this</span>.labelId+<span class="hljs-string">'" class="modal-title"&gt;'</span>+<span class="hljs-keyword">this</span>.label+<span class="hljs-string">'&lt;/'</span>+<span class="hljs-keyword">this</span>.labelTagName+<span class="hljs-string">'&gt;'</span>;
-    <span class="hljs-keyword">this</span>.$el.html(html);
+    <span class="hljs-keyword">this</span>.$el.html([$close, $header]);
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }
 
@@ -207,7 +216,8 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   },
 
   createTag: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(text)</span> {</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'&lt;p&gt;'</span>+text+<span class="hljs-string">'&lt;/p&gt;'</span>;
+    <span class="hljs-keyword">var</span> $tag = $(<span class="hljs-string">'&lt;p&gt;'</span>).text(text);
+    <span class="hljs-keyword">return</span> $tag;
   }
 
 });</pre></div></div>
@@ -249,23 +259,14 @@ BackboneBootstrapModals.BaseFooterView = Backbone.View.extend({
 
   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createButton</span><span class="hljs-params">(button)</span> {</span>
-      <span class="hljs-keyword">var</span> attrs = button.attributes || {},
-          attributes = <span class="hljs-built_in">Object</span>.keys(attrs).map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(key)</span> {</span>
-            <span class="hljs-keyword">return</span> key+<span class="hljs-string">'="'</span>+attrs[key]+<span class="hljs-string">'"'</span>;
-          }).join(<span class="hljs-string">' '</span>);
-
-      <span class="hljs-keyword">var</span> btn = <span class="hljs-string">'&lt;button'</span>;
-      <span class="hljs-keyword">if</span> (button.id) { btn += <span class="hljs-string">' id="'</span>+button.id+<span class="hljs-string">'"'</span>; }
-      <span class="hljs-keyword">if</span> (button.className) { btn += <span class="hljs-string">' class="'</span>+button.className+<span class="hljs-string">'"'</span>; }
-      <span class="hljs-keyword">if</span> (attributes) { btn += attributes ;}
-      btn += <span class="hljs-string">'&gt;'</span>;
-      <span class="hljs-keyword">if</span> (button.value) { btn += button.value; }
-      btn += <span class="hljs-string">'&lt;/button&gt;'</span>;
-      <span class="hljs-keyword">return</span> btn;
+      <span class="hljs-keyword">var</span> $btn = $(<span class="hljs-string">'&lt;button&gt;'</span>, _.extend({
+        <span class="hljs-string">'id'</span>: button.id,
+        <span class="hljs-string">'class'</span>: button.className
+      }, button.attributes)).text(button.value);
+      <span class="hljs-keyword">return</span> $btn;
     }
 
-    <span class="hljs-keyword">var</span> html = <span class="hljs-keyword">this</span>.buttons.map(createButton).join(<span class="hljs-string">''</span>);
-    <span class="hljs-keyword">this</span>.$el.html(html);
+    <span class="hljs-keyword">this</span>.$el.html(<span class="hljs-keyword">this</span>.buttons.map(createButton));
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
   }
 
