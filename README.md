@@ -15,6 +15,10 @@ when working with Bootstrap modal dialogs.
 - All boilerplate taken care of for you
 - Compatible with Marionette Views
 
+## Installing with Bower
+
+`bower install backbone-bootstrap-modals`
+
 ## Download Links
 
 [backbone-bootstrap-modals.js](https://raw.githubusercontent.com/leafygreen/backbone-bootstrap-modals/master/lib/backbone-bootstrap-modals.js)
