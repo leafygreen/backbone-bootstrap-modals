@@ -6,21 +6,24 @@
     "Dennis Kuczynski <dennis.kuczynski@gmail.com>"
   ],
   "description": "Set of extendable Backbone Views for working with Bootstrap Modal Dialogs",
-  "main": "dist/backbone-bootstrap-modals.js",
-  "moduleType": [
-    "globals"
+  "main": [
+    "./lib/backbone-bootstrap-modals.js",
+    "./lib/backbone-bootstrap-modals.min.js"
   ],
   "keywords": [
-    "Backbone",
-    "Bootstrap",
-    "Modal"
+    "backbone",
+    "bootstrap",
+    "modal"
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "node_modules",
     "bower_components",
-    "test"
+    "docs",
+    "examples",
+    "node_modules",
+    "test",
+    ".gitignore",
+    ".travis.yml"
   ],
   "dependencies": {
     "backbone": "~1.1.2",
