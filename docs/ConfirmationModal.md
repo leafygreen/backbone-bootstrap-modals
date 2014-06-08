@@ -30,6 +30,7 @@ A user may also override with a custom bodyView.
 
 ## ConfirmationModal's Basic Example
 
+```javascript
 var CustomView = Backbone.View.extend({
   initialize: function(opts) {
     this.displayValue = opts.displayValue;
