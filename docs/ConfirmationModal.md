@@ -31,15 +31,6 @@ A user may also override with a custom bodyView.
 ## ConfirmationModal's Basic Example
 
 ```javascript
-var CustomView = Backbone.View.extend({
-  initialize: function(opts) {
-    this.displayValue = opts.displayValue;
-  },
-  render: function() {
-      this.$el.html("<b>Custom View: "+this.displayValue+"</b>");
-      return this;
-  }
-});
 var modal = new BackboneBootstrapModals.ConfirmationModal({
   label: 'Confirm Action',
   labelId: 'myLabelId',
