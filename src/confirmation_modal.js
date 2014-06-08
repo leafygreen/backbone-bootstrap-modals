@@ -55,7 +55,6 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     'text',
     'confirmText',
     'confirmClassName',
-    'bodyViewOptions',
     'cancelText',
     'cancelClassName',
     'showCancel',

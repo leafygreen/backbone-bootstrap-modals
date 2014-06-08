@@ -43,10 +43,13 @@
         confirmCalled = false;
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Action',
+          labelId: 'myLabelId',
           labelTagName: 'h3',
-          text: 'Are you sure you want to do that?',
+          text: ['Are you sure you want to do that?', 'Really sure?'],
           cancelText: 'No',
+          cancelClassName: 'myCancelClass',
           confirmText: 'Yes',
+          confirmClassName: 'myConfirmClass',
           onConfirm: function() {
             confirmCalled = true;
           },
@@ -64,12 +67,12 @@
                          '<div class="modal-content">'+
                            '<div class="modal-header">'+
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
-                             '<h3 id="myModalLabel" class="modal-title">Confirm Action</h3>'+
+                             '<h3 id="myLabelId" class="modal-title">Confirm Action</h3>'+
                            '</div>'+
-                           '<div class="modal-body"><p>Are you sure you want to do that?</p></div>'+
+                           '<div class="modal-body"><p>Are you sure you want to do that?</p><p>Really sure?</p></div>'+
                            '<div class="modal-footer">'+
-                             '<button id="confirmation-cancel-btn" class="btn btn-default" data-dismiss="modal" aria-hidden="true">No</button>'+
-                             '<button id="confirmation-confirm-btn" class="btn btn-primary">Yes</button>'+
+                             '<button id="confirmation-cancel-btn" class="btn myCancelClass" data-dismiss="modal" aria-hidden="true">No</button>'+
+                             '<button id="confirmation-confirm-btn" class="btn myConfirmClass">Yes</button>'+
                            '</div>'+
                          '</div>'+
                        '</div>'+
@@ -96,14 +99,18 @@
         confirmCalled = false;
         var CustomView = Backbone.View.extend({
           className: 'modal-body',
+          initialize: function(opts) {
+            this.displayValue = opts.displayValue;
+          },
           render: function() {
-              this.$el.html("<b>Custom View</b>");
+              this.$el.html("<b>Custom View: "+this.displayValue+"</b>");
               return this;
           }
         });
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Custom Action',
           bodyView: CustomView,
+          bodyViewOptions: { displayValue: 'myOption' },
           showCancel: false,
           onConfirm: function() {
             confirmCalled = true;
@@ -124,7 +131,7 @@
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Confirm Custom Action</h4>'+
                            '</div>'+
-                           '<div class="modal-body"><b>Custom View</b></div>'+
+                           '<div class="modal-body"><b>Custom View: myOption</b></div>'+
                            '<div class="modal-footer">'+
                              '<button id="confirmation-confirm-btn" class="btn btn-primary">Confirm</button>'+
                            '</div>'+
