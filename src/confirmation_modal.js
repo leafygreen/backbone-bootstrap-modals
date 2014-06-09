@@ -21,7 +21,8 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
 
   bodyViewOptions: function() {
     return {
-      text: _.result(this, 'text')
+      text: _.result(this, 'text'),
+      textTagName: _.result(this, 'textTagName')
     };
   },
 
@@ -53,6 +54,7 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     'labelTagName',
     'showClose',
     'text',
+    'textTagName',
     'confirmText',
     'confirmClassName',
     'cancelText',

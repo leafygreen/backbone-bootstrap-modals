@@ -13,7 +13,7 @@ This view is specified with the following options.  These can be specified as pr
 | Property   | Description                                      | Default          |
 | -----------|-------------------------------------------------:|-----------------:|
 | text      | The text to in the modal body in within a `p` tag. An array of text can be specified for multiple tags. |                  |
-
+| textTagName | The tag used for the body text elements         | `'p'`            |
 
 **NOTE: While BaseHeaderView and BaseFooterView should be able to be leveraged as-is in many use cases -- it is expected that BaseBodyView would usually be replaced or extended by most applications.**
 

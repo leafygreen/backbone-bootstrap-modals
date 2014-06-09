@@ -21,6 +21,7 @@ A user may also override with a custom bodyView.
 | labelTagName | The label tag used for `modal-title` element                 | `'h4'`           |
 | showClose    | If true, shows the close icon in the top-right of the header | true             |
 | text      | The text to in the modal body in within a `p` tag. An array of text can be specified for multiple tags. |                  |
+| textTagName | The tag used for the body text elements         | `'p'`            |
 | confirmText        | The text to display inside the confirm button          | `'Confirm'`      |
 | confirmClassName        | The button style class to use for the confirm button | `'btn-primary'` |
 | cancelText        | The text to display inside the cancel button            | `'Cancel'`       |

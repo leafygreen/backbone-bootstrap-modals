@@ -23,13 +23,14 @@
 
       beforeEach(function() {
         view = new BackboneBootstrapModals.BaseBodyView({
-          text: 'hello world'
+          text: 'hello world',
+          textTagName: 'pre'
         });
       });
 
       it('should render default markup', function() {
         view.render();
-        assert.equal('<div class="modal-body"><p>hello world</p></div>',
+        assert.equal('<div class="modal-body"><pre>hello world</pre></div>',
                      view.el.outerHTML);
       });
     });

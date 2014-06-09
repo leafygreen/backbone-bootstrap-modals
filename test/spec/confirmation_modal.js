@@ -46,6 +46,7 @@
           labelId: 'myLabelId',
           labelTagName: 'h3',
           text: ['Are you sure you want to do that?', 'Really sure?'],
+          textTagName: 'pre',
           cancelText: 'No',
           cancelClassName: 'myCancelClass',
           confirmText: 'Yes',
@@ -69,7 +70,7 @@
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h3 id="myLabelId" class="modal-title">Confirm Action</h3>'+
                            '</div>'+
-                           '<div class="modal-body"><p>Are you sure you want to do that?</p><p>Really sure?</p></div>'+
+                           '<div class="modal-body"><pre>Are you sure you want to do that?</pre><pre>Really sure?</pre></div>'+
                            '<div class="modal-footer">'+
                              '<button id="confirmation-cancel-btn" class="btn myCancelClass" data-dismiss="modal" aria-hidden="true">No</button>'+
                              '<button id="confirmation-confirm-btn" class="btn myConfirmClass">Yes</button>'+

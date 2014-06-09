@@ -9,13 +9,14 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   initialize: function (opts) {
     var options = opts || {};
     this.text = options.text;
+    this.textTagName = options.textTagName || 'p';
   },
 
   render: function() {
     var html;
     if (this.text) {
       if (_.isArray(this.text)) {
-        html = _.map(this.text, this.createTag);
+        html = _.map(this.text, _.bind(this.createTag, this));
       } else {
         html = this.createTag(this.text);
       }
@@ -25,7 +26,7 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   },
 
   createTag: function(text) {
-    var $tag = $('<p>').text(text);
+    var $tag = $('<'+this.textTagName+'>').text(text);
     return $tag;
   }
 
