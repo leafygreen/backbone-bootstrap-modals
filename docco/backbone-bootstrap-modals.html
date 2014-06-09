@@ -31,7 +31,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*!
-  backbone-bootstrap-modals 0.1.0
+  backbone-bootstrap-modals 0.1.1
   http://github.com/leafygreen/backbone-bootstrap-modals
 
   Licensed under the MIT license.
@@ -200,13 +200,14 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   initialize: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(opts)</span> {</span>
     <span class="hljs-keyword">var</span> options = opts || {};
     <span class="hljs-keyword">this</span>.text = options.text;
+    <span class="hljs-keyword">this</span>.textTagName = options.textTagName || <span class="hljs-string">'p'</span>;
   },
 
   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">var</span> html;
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.text) {
       <span class="hljs-keyword">if</span> (_.isArray(<span class="hljs-keyword">this</span>.text)) {
-        html = _.map(<span class="hljs-keyword">this</span>.text, <span class="hljs-keyword">this</span>.createTag);
+        html = _.map(<span class="hljs-keyword">this</span>.text, _.bind(<span class="hljs-keyword">this</span>.createTag, <span class="hljs-keyword">this</span>));
       } <span class="hljs-keyword">else</span> {
         html = <span class="hljs-keyword">this</span>.createTag(<span class="hljs-keyword">this</span>.text);
       }
@@ -216,7 +217,7 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   },
 
   createTag: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(text)</span> {</span>
-    <span class="hljs-keyword">var</span> $tag = $(<span class="hljs-string">'&lt;p&gt;'</span>).text(text);
+    <span class="hljs-keyword">var</span> $tag = $(<span class="hljs-string">'&lt;'</span>+<span class="hljs-keyword">this</span>.textTagName+<span class="hljs-string">'&gt;'</span>).text(text);
     <span class="hljs-keyword">return</span> $tag;
   }
 
@@ -765,7 +766,8 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
 
   bodyViewOptions: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      text: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'text'</span>)
+      text: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'text'</span>),
+      textTagName: _.result(<span class="hljs-keyword">this</span>, <span class="hljs-string">'textTagName'</span>)
     };
   },
 
@@ -809,9 +811,9 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     <span class="hljs-string">'labelTagName'</span>,
     <span class="hljs-string">'showClose'</span>,
     <span class="hljs-string">'text'</span>,
+    <span class="hljs-string">'textTagName'</span>,
     <span class="hljs-string">'confirmText'</span>,
     <span class="hljs-string">'confirmClassName'</span>,
-    <span class="hljs-string">'bodyViewOptions'</span>,
     <span class="hljs-string">'cancelText'</span>,
     <span class="hljs-string">'cancelClassName'</span>,
     <span class="hljs-string">'showCancel'</span>,
