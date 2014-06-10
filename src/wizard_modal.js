@@ -7,7 +7,8 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   wizardEvents: {
     'click #confirmation-previous-btn': 'onClickPrevious',
-    'click #confirmation-next-btn': 'onClickNext'
+    'click #confirmation-next-btn': 'onClickNext',
+    'keypress .modal-body': 'onKeyPress'
   },
 
   getBodyView: function(options) {
@@ -94,10 +95,21 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     this.renderPreviousStep();
   },
 
+  onKeyPress: function(e) {
+    // if the user presses the enter key
+    if (e.which === 13) {
+      e.preventDefault();
+      this.$('#confirmation-next-btn').click();
+    }
+  },
+
   onClickNext: function(e) {
     e.preventDefault();
     e.currentTarget.disabled = true;
+    this.goForward(e);
+  },
 
+  goForward: function(e) {
     // Execute the specified callback if it exists, then proceed.
     // The modal will not proceed if the callback returns false.
     if (this.currentStep.onNext) {
