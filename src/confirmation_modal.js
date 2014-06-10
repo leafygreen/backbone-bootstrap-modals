@@ -6,7 +6,8 @@
 BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.extend({
 
   confirmationEvents: {
-    'click #confirmation-confirm-btn': 'onClickConfirm'
+    'click #confirmation-confirm-btn': 'onClickConfirm',
+    'keypress .modal-body': 'onKeyPress'
   },
 
   // Default set of BaseModal options for use as ConfirmationModal
@@ -74,10 +75,21 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     return eventHashes.concat(this.confirmationEvents);
   },
 
+  onKeyPress: function(e) {
+    // if the user presses the enter key
+    if (e.which === 13) {
+      e.preventDefault();
+      this.$('#confirmation-confirm-btn').click();
+    }
+  },
+
   onClickConfirm: function(e) {
     e.preventDefault();
     e.currentTarget.disabled = true;
+    this.confirmProgress(e);
+  },
 
+  confirmProgress: function(e){
     // Execute the specified callback if it exists, then hide the modal.
     // The modal will not be hidden if the callback returns false.
     if (this.onConfirm) {
