@@ -31,7 +31,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*!
-  backbone-bootstrap-modals 0.1.1
+  backbone-bootstrap-modals 0.1.2
   http://github.com/leafygreen/backbone-bootstrap-modals
 
   Licensed under the MIT license.
@@ -739,7 +739,8 @@ events, e.g. ConfirmationModal.confirmationEvents</p>
 BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.extend({
 
   confirmationEvents: {
-    <span class="hljs-string">'click #confirmation-confirm-btn'</span>: <span class="hljs-string">'onClickConfirm'</span>
+    <span class="hljs-string">'click #confirmation-confirm-btn'</span>: <span class="hljs-string">'onClickConfirm'</span>,
+    <span class="hljs-string">'keypress .modal-body'</span>: <span class="hljs-string">'onKeyPress'</span>
   },</pre></div></div>
             
         </li>
@@ -843,9 +844,7 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
     <span class="hljs-keyword">return</span> eventHashes.concat(<span class="hljs-keyword">this</span>.confirmationEvents);
   },
 
-  onClickConfirm: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
-    e.preventDefault();
-    e.currentTarget.disabled = <span class="hljs-literal">true</span>;</pre></div></div>
+  onKeyPress: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span></pre></div></div>
             
         </li>
         
@@ -855,6 +854,33 @@ BackboneBootstrapModals.ConfirmationModal = BackboneBootstrapModals.BaseModal.ex
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>if the user presses the enter key</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (e.which === <span class="hljs-number">13</span>) {
+      e.preventDefault();
+      <span class="hljs-keyword">this</span>.$(<span class="hljs-string">'#confirmation-confirm-btn'</span>).click();
+    }
+  },
+
+  onClickConfirm: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
+    e.preventDefault();
+    e.currentTarget.disabled = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">this</span>.confirmProgress(e);
+  },
+
+  confirmProgress: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span>{</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>Execute the specified callback if it exists, then hide the modal.
 The modal will not be hidden if the callback returns false.</p>
@@ -874,11 +900,11 @@ The modal will not be hidden if the callback returns false.</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <h2 id="wizardmodal">WizardModal</h2>
 
@@ -887,11 +913,11 @@ The modal will not be hidden if the callback returns false.</p>
         </li>
         
         
-        <li id="section-38">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>A simple modal for dialogs with multi-step wizard behavior</p>
 
@@ -902,7 +928,8 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
 
   wizardEvents: {
     <span class="hljs-string">'click #confirmation-previous-btn'</span>: <span class="hljs-string">'onClickPrevious'</span>,
-    <span class="hljs-string">'click #confirmation-next-btn'</span>: <span class="hljs-string">'onClickNext'</span>
+    <span class="hljs-string">'click #confirmation-next-btn'</span>: <span class="hljs-string">'onClickNext'</span>,
+    <span class="hljs-string">'keypress .modal-body'</span>: <span class="hljs-string">'onKeyPress'</span>
   },
 
   getBodyView: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(options)</span> {</span>
@@ -936,11 +963,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-39">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               <p>Override any defined stepGraph with the one in options if present</p>
 
@@ -953,11 +980,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-40">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-40">&#182;</a>
+                <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p>Validate the steps structure</p>
 
@@ -990,11 +1017,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-41">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <p>Override BaseModal hook to add additional default delegated events</p>
 
@@ -1020,11 +1047,11 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         </li>
         
         
-        <li id="section-42">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p>If no more steps, hide the dialog</p>
 
@@ -1040,18 +1067,43 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
     <span class="hljs-keyword">this</span>.renderPreviousStep();
   },
 
-  onClickNext: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
-    e.preventDefault();
-    e.currentTarget.disabled = <span class="hljs-literal">true</span>;</pre></div></div>
+  onKeyPress: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-43">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>if the user presses the enter key</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (e.which === <span class="hljs-number">13</span>) {
+      e.preventDefault();
+      <span class="hljs-keyword">this</span>.$(<span class="hljs-string">'#confirmation-next-btn'</span>).click();
+    }
+  },
+
+  onClickNext: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span>
+    e.preventDefault();
+    e.currentTarget.disabled = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">this</span>.goForward(e);
+  },
+
+  goForward: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p>Execute the specified callback if it exists, then proceed.
 The modal will not proceed if the callback returns false.</p>
