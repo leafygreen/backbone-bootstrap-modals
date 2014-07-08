@@ -99,7 +99,7 @@
       beforeEach(function() {
         confirmCalled = false;
         var CustomView = Backbone.View.extend({
-          className: 'modal-body',
+          className: 'modal-body custom-class',
           initialize: function(opts) {
             this.displayValue = opts.displayValue;
           },
@@ -111,7 +111,9 @@
         modal = new BackboneBootstrapModals.ConfirmationModal({
           label: 'Confirm Custom Action',
           bodyView: CustomView,
-          bodyViewOptions: { displayValue: 'myOption' },
+          bodyViewOptions: {
+            displayValue: 'myOption'
+          },
           showCancel: false,
           onConfirm: function() {
             confirmCalled = true;
@@ -132,7 +134,7 @@
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="myModalLabel" class="modal-title">Confirm Custom Action</h4>'+
                            '</div>'+
-                           '<div class="modal-body"><b>Custom View: myOption</b></div>'+
+                           '<div class="modal-body custom-class"><b>Custom View: myOption</b></div>'+
                            '<div class="modal-footer">'+
                              '<button id="confirmation-confirm-btn" class="btn btn-primary">Confirm</button>'+
                            '</div>'+

@@ -45,6 +45,7 @@
             labelId: 'exampleModalLabel'
           },
           bodyViewOptions: {
+            className: 'modal-body custom-class',
             text: 'This is an example body.'
           },
           footerViewOptions: {
@@ -69,7 +70,7 @@
                              '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">\u00D7</button>'+
                              '<h4 id="exampleModalLabel" class="modal-title">Example Dialog</h4>'+
                            '</div>'+
-                           '<div class="modal-body"><p>This is an example body.</p></div>'+
+                           '<div class="modal-body custom-class"><p>This is an example body.</p></div>'+
                            '<div class="modal-footer">'+
                              '<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>'+
                              '<button id="simple-modal-apply-btn" class="btn btn-primary">Apply</button>'+
@@ -92,7 +93,7 @@
           }
         });
         var BodyView = Backbone.View.extend({
-          className: 'modal-body',
+          className: 'modal-body custom-class',
           render: function() {
               this.$el.html("<u>Custom Body</u>");
               return this;
@@ -124,7 +125,7 @@
                            '<div class="modal-header">'+
                              '<h3>Custom Header</h3>'+
                            '</div>'+
-                           '<div class="modal-body"><u>Custom Body</u></div>'+
+                           '<div class="modal-body custom-class"><u>Custom Body</u></div>'+
                            '<div class="modal-footer">'+
                              '<button>Custom Footer</button>'+
                            '</div>'+

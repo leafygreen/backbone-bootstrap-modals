@@ -117,17 +117,22 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
 
   // Construct view instance with specified options and
   // additionally propagate model/collection/className attributes
-  buildSubview: function(viewConstructor, viewOptions, className) {
-    if (!viewConstructor) {
+  buildSubview: function(viewClass, viewOptions, defaultClassName) {
+    if (!viewClass) {
       throw new Error("view not specified");
     }
     
     var options = _.extend({
       model: this.model,
-      collection: this.collection,
-      className: className
+      collection: this.collection
     }, viewOptions);
-    return new viewConstructor(options);
+
+    // Ensure the proper className if not specified through the viewClass or viewOptions 
+    if (!(viewClass.prototype.className || options.className)) {
+      options.className = defaultClassName;
+    }
+
+    return new viewClass(options);
   },
 
   remove: function () {
