@@ -83,7 +83,8 @@ The `modalOptions` structures defines the properties sent to Bootstrap's `modal`
 // Defaults
 modalOptions: {
   backdrop: true,
-  keyboard: true
+  keyboard: true,
+  show: true // if show is set to false, modals will not be automatically shown on render
 }
 ```
 
