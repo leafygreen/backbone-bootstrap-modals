@@ -14,6 +14,10 @@ when working with Bootstrap modal dialogs.
 - Easily extensible with sane defaults
 - All boilerplate taken care of for you
 - Compatible with Marionette Views
+- 
+## Installing with NPM
+
+`npm install backbone-bootstrap-modals`
 
 ## Installing with Bower
 
