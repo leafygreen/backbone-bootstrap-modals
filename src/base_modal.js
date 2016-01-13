@@ -151,10 +151,10 @@ BackboneBootstrapModals.BaseModal = Backbone.View.extend({
     if (this.footerViewInstance) { this.removeSubview(this.footerViewInstance);  }
   },
 
-  // Attempt to use Marionette's close first, falling back to Backbone's remove
+  // Attempt to use Marionette's destroy first, falling back to Backbone's remove
   removeSubview: function(viewInstance) {
-    if (Backbone.Marionette && viewInstance.close) {
-        viewInstance.close.apply(viewInstance);
+    if (Backbone.Marionette && viewInstance.destroy) {
+        viewInstance.destroy.apply(viewInstance);
     } else if (viewInstance.remove) {
         viewInstance.remove.apply(viewInstance);
     }

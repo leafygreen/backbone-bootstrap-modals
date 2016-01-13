@@ -3,8 +3,6 @@ backbone-bootstrap-modals
 [![Build Status](https://travis-ci.org/leafygreen/backbone-bootstrap-modals.svg?branch=master)](https://travis-ci.org/leafygreen/backbone-bootstrap-modals)
 [![Code Climate](https://codeclimate.com/github/leafygreen/backbone-bootstrap-modals.png)](https://codeclimate.com/github/leafygreen/backbone-bootstrap-modals)
 
-(STILL IN ALPHA -- We'll do an official release when ready for production.)
-
 The goal of backbone-bootstrap-modals is to produce a set of core Backbone Views
 when working with Bootstrap modal dialogs.
 
@@ -18,10 +16,6 @@ when working with Bootstrap modal dialogs.
 ## Installing with NPM
 
 `npm install backbone-bootstrap-modals`
-
-## Installing with Bower
-
-`bower install backbone-bootstrap-modals`
 
 ## Download Links
 
@@ -135,7 +129,7 @@ Should work with all modern browsers, including Internet Exploror 9+
 ## Building
 
 ```
-bower install
+npm install
 grunt
 ```
 
@@ -143,8 +137,6 @@ grunt
 
 ```
 cd test
-bower install
-cd ..
 grunt mocha
 ```
 
