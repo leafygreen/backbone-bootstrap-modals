@@ -26,7 +26,7 @@ BackboneBootstrapModals.BaseBodyView = Backbone.View.extend({
   },
 
   createTag: function(text) {
-    var $tag = $('<'+this.textTagName+'>').text(text);
+    var $tag = Backbone.$('<'+this.textTagName+'>').text(text);
     return $tag;
   }
 

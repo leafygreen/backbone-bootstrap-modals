@@ -1,6 +1,6 @@
 {
   "name": "backbone-bootstrap-modals",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Set of extendable Backbone Views for working with Bootstrap Modal Dialogs",
   "keywords": [
     "backbone",

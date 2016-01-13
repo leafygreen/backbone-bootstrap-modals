@@ -15,14 +15,14 @@ BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
   },
 
   render: function() {
-    var $header = $('<'+this.labelTagName+'>', {
+    var $header = Backbone.$('<'+this.labelTagName+'>', {
       'id': this.labelId,
       'class': 'modal-title'
     }).text(this.label);
 
     var $close;
     if (this.showClose) {
-      $close = $('<button>', {
+      $close = Backbone.$('<button>', {
         'type': 'button',
         'class': 'close',
         'data-dismiss': 'modal',

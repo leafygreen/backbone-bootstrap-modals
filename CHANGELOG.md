@@ -1,3 +1,8 @@
+0.2.1
+-----------
+
+- Replace occurences of $ with Backbone.$
+
 0.2.0
 -----------
 

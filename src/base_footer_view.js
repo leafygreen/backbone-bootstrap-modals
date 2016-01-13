@@ -13,7 +13,7 @@ BackboneBootstrapModals.BaseFooterView = Backbone.View.extend({
 
   render: function() {
     function createButton(button) {
-      var $btn = $('<button>', _.extend({
+      var $btn = Backbone.$('<button>', _.extend({
         'id': button.id,
         'class': button.className
       }, button.attributes)).text(button.value);
