@@ -114,7 +114,7 @@ BackboneBootstrapModals.WizardModal = BackboneBootstrapModals.BaseModal.extend({
         // Execute the specified callback if it exists, then proceed.
         // The modal will not proceed if the callback returns false.
         if (this.currentStep.onNext) {
-            if (this.currentStep.onNext(e) === false) {
+            if (this.currentStep.onNext.call(this, e) === false) {
                 return;
             }
         }

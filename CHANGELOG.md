@@ -1,3 +1,8 @@
+0.3.1
+-----------
+
+- Fix WizardModal regression in 0.3.0
+
 0.3.0
 -----------
 

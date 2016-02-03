@@ -205,7 +205,8 @@
               label: this.currentStep.label,
               labelTagName: 'h3'
             };
-          }
+          },
+          _helper: function() {}
         });
 
         modal = new ExtendedModal({
@@ -213,7 +214,9 @@
             label: 'Wizard: Step One',
             view: BackboneBootstrapModals.BaseBodyView,
             viewOptions: { text: 'This is step one' },
-            onNext: function() {}
+            onNext: function() {
+                this._helper(); // ensure onNext is called with correct scope
+            }
           }],
           modalOptions: {
             show: false
@@ -241,6 +244,12 @@
                        '</div>'+
                      '</div>');
       });
+
+      it('can be advanced to next step', function() {
+        modal.render();
+        modal.$el.find('#confirmation-next-btn').click();
+      });
+
     });
   });
 })();
