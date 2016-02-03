@@ -28,6 +28,7 @@ A user may also override with a custom bodyView.
 | cancelClassName        | The button style class to use for the confirm button | `'btn-default'` |
 | showCancel        | Whether or not to show the cancel button            | `'true'`             |
 | onConfirm        | Function callback when the confirm button is clicked. The modal will automatically be hidden unless this callback returns false. |                  |
+| onCancel        | Function callback when the modal is hidden and has not been confirmed. |                  |
 
 ## ConfirmationModal's Basic Example
 
@@ -43,6 +44,9 @@ var modal = new BackboneBootstrapModals.ConfirmationModal({
   confirmClassName: 'myConfirmClass',
   onConfirm: function() {
     console.log("confirmed");
+  },
+  onCancel: function() {
+    console.log("canceled");
   }
 });
 modal.render();

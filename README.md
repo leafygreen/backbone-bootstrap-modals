@@ -81,6 +81,9 @@ var modal = new BackboneBootstrapModals.ConfirmationModal({
   text: 'Are you sure you want to do that?',
   onConfirm: function() {
     console.log("action confirmed");
+  },
+  onCancel: function() {
+    console.log("action canceled");
   }
 });
 modal.render();

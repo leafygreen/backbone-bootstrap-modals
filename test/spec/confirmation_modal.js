@@ -37,7 +37,7 @@
     });
 
     describe('with basic options', function() {
-      var modal, confirmCalled;
+      var modal, confirmCalled, cancelCalled;
 
       beforeEach(function() {
         confirmCalled = false;
@@ -54,6 +54,9 @@
           onConfirm: function() {
             confirmCalled = true;
           },
+          onCancel: function() {
+            cancelCalled = true;
+          }
           modalOptions: {
             show: false
           }
@@ -84,12 +87,31 @@
         modal.render();
         var handler = function() {
           modal.$el.off('click.test');
+
           // ensure onConfirm handler defined above is called
           assert.equal(confirmCalled, true);
+
+          // ensure onCancel handler defined above is not called
+          assert.equal(cancelCalled, false);
+
           done();
         };
         modal.$el.on('click.test', '#confirmation-confirm-btn', handler);
         modal.$el.find('#confirmation-confirm-btn').click();
+      });
+
+      it('should call onCancel when hidden', function(done) {
+        modal.render();
+        var handler = function() {
+          modal.$el.off('click.test');
+
+          // ensure onCancel handler defined above is not called
+          assert.equal(cancelCalled, true);
+
+          done();
+        };
+        modal.$el.on('click.test', '#confirmation-cancel-btn', handler);
+        modal.$el.find('#confirmation-cancel-btn').click();
       });
     });
 
@@ -147,8 +169,10 @@
         modal.render();
         var handler = function() {
           modal.$el.off('click.test');
+
           // ensure onConfirm handler defined above is called
           assert.equal(confirmCalled, true);
+
           done();
         };
         modal.$el.on('click.test', '#confirmation-confirm-btn', handler);
@@ -206,8 +230,10 @@
         modal.render();
         var handler = function() {
           modal.$el.off('click.test');
+
           // ensure onConfirm handler defined above is called
           assert.equal(confirmCalled, true);
+
           done();
         };
         modal.$el.on('click.test', '#confirmation-confirm-btn', handler);

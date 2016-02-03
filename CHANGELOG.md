@@ -1,3 +1,8 @@
+0.3.0
+-----------
+
+- Add onCancel feature to ConfirmationModal
+
 0.2.1
 -----------
 

@@ -4,33 +4,32 @@
 // A simple view representing the modal title and dismiss icon.
 
 BackboneBootstrapModals.BaseHeaderView = Backbone.View.extend({
-  className: 'modal-header',
+    className: 'modal-header',
 
-  initialize: function (opts) {
-    var options = opts || {};
-    this.label = options.label || '';
-    this.labelId = options.labelId || 'myModalLabel';
-    this.labelTagName = options.labelTagName || 'h4';
-    this.showClose = (options.showClose !== undefined) ? options.showClose : true;
-  },
+    initialize: function (opts) {
+        var options = opts || {};
+        this.label = options.label || '';
+        this.labelId = options.labelId || 'myModalLabel';
+        this.labelTagName = options.labelTagName || 'h4';
+        this.showClose = (options.showClose !== undefined) ? options.showClose : true;
+    },
 
-  render: function() {
-    var $header = Backbone.$('<'+this.labelTagName+'>', {
-      'id': this.labelId,
-      'class': 'modal-title'
-    }).text(this.label);
+    render: function() {
+        var $header = Backbone.$('<'+this.labelTagName+'>', {
+            id: this.labelId,
+            class: 'modal-title'
+        }).text(this.label);
 
-    var $close;
-    if (this.showClose) {
-      $close = Backbone.$('<button>', {
-        'type': 'button',
-        'class': 'close',
-        'data-dismiss': 'modal',
-        'aria-hidden': 'true'
-      }).html('&times;');
+        var $close;
+        if (this.showClose) {
+            $close = Backbone.$('<button>', {
+                type: 'button',
+                class: 'close',
+                'data-dismiss': 'modal',
+                'aria-hidden': 'true'
+            }).html('&times;');
+        }
+        this.$el.html([$close, $header]);
+        return this;
     }
-    this.$el.html([$close, $header]);
-    return this;
-  }
-
 });
