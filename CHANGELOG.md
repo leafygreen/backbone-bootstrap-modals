@@ -1,3 +1,8 @@
+0.3.2
+-----------
+
+- Upgrade jQuery dependency
+
 0.3.1
 -----------
 
